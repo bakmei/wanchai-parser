@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.dotdashline.tools.cliparser.CLIParserException;
 import com.dotdashline.tools.cliparser.tag.CLICommandTag;
 import com.dotdashline.tools.cliparser.tag.CLIParamTag;
 import com.dotdashline.tools.cliparser.utils.ReflectionUtil;
@@ -16,9 +17,10 @@ public class ReflectionUtilTest {
      * 
      * @throws IllegalAccessException
      * @throws IllegalArgumentException
+     * @throws CLIParserException 
      */
     @Test
-    public void test_reflection_set_private() throws IllegalArgumentException, IllegalAccessException {
+    public void test_reflection_set_private() throws IllegalArgumentException, IllegalAccessException, CLIParserException {
         String sample = Sampling.sampleString();
         MyLittleTest obj = new MyLittleTest();
         Field field = ReflectionUtil.getAnnotatedFields(obj.getClass(), CLIParamTag.class).get(0);
