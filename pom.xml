@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dotdashline.tools</groupId>
-  <artifactId>tools-cliparser</artifactId>
+  <artifactId>wanchai-parser</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>Dot.Dash-Line CLI Parser</name>
-  <description>A somple and intuitive design command line parser</description>
+  <name>WanChai Parser</name>
+  <description>A simple and intuitive command line parser for Java.</description>
 
   <packaging>jar</packaging>
 
