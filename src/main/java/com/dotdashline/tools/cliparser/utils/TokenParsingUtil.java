@@ -10,6 +10,13 @@ import com.dotdashline.tools.cliparser.CLIParserException;
 import com.dotdashline.tools.cliparser.meta.CommandMeta;
 import com.dotdashline.tools.cliparser.meta.OptionMeta;
 
+/**
+*
+* @author Raymond Tsang
+* @author Steven Liang
+*
+* @since 0.1
+*/
 public class TokenParsingUtil {
 
 

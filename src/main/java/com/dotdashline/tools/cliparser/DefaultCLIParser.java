@@ -1,7 +1,10 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package com.dotdashline.tools.cliparser;
 
 import java.util.Arrays;
-import java.util.Set;
 
 import com.dotdashline.tools.cliparser.utils.CollectionUtil;
 
@@ -14,7 +17,7 @@ import com.dotdashline.tools.cliparser.utils.CollectionUtil;
  * @author Raymond Tsang
  * @author Steven Liang
  *
- * @since 1.0
+ * @since 0.1
  *
  */
 public class DefaultCLIParser extends AbstractCLIParser implements CLIParser {

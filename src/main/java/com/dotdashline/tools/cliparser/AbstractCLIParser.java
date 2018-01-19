@@ -1,3 +1,7 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package com.dotdashline.tools.cliparser;
 
 import java.io.IOException;
@@ -25,7 +29,7 @@ import com.dotdashline.tools.cliparser.utils.ReflectionUtil;
  * @author Raymond Tsang
  * @author Steven Liang
  *
- * @since 1.0
+ * @since 0.1
  */
 public abstract class AbstractCLIParser implements CLIParser {
 

@@ -10,17 +10,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.dotdashline.tools.cliparser.tag.CLICommandTag;
 
 /**
 *
 * @author Raymond Tsang
 * @author Steven Liang
 *
-* @since 1.0 
+* @since 0.1
 */
 public class PackageScanUtil {
 

@@ -1,3 +1,7 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package com.dotdashline.tools.cliparser.meta;
 
 import java.lang.reflect.Field;
@@ -5,11 +9,11 @@ import java.lang.reflect.Field;
 import com.dotdashline.tools.cliparser.tag.CLIParamTag;
 
 /**
-*
-* @author Raymond Tsang
-* @author Steven Liang
-*
-* @since 1.0 
+ *
+ * @author Raymond Tsang
+ * @author Steven Liang
+ *
+ * @since 0.1
 */
 public class ParamMeta implements Comparable<ParamMeta> {
     private Field field;
