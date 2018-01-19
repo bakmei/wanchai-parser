@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  * @author Raymond Tsang
  * @author Steven Liang
  *
- * @since 1.0
+ * @since 0.1
  */
 public class CollectionUtil {
 

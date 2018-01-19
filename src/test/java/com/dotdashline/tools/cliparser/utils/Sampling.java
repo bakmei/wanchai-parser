@@ -1,4 +1,4 @@
-package com.dotdashline.tools.cliparser.tests.utils;
+package com.dotdashline.tools.cliparser.utils;
 
 import java.util.Arrays;
 import java.util.Random;

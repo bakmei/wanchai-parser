@@ -1,12 +1,16 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package com.dotdashline.tools.cliparser;
 
 /**
  * This exception represents any errors that occurred within the CLI parser implementation.
  *
- * @author Raymond Tsang 
+ * @author Raymond Tsang
  * @author Steven Liang
  *
- * @since 1.0
+ * @since 0.1
  *
  */
 @SuppressWarnings("serial")

@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import com.dotdashline.tools.cliparser.tag.CLICommandTag;
 import com.dotdashline.tools.cliparser.tag.CLIParamTag;
-import com.dotdashline.tools.cliparser.tests.utils.Sampling;
 import com.dotdashline.tools.cliparser.utils.ReflectionUtil;
 
 public class ReflectionUtilTest {

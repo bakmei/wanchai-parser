@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.dotdashline.tools.cliparser.CLIParser;
 import com.dotdashline.tools.cliparser.CLIParserException;
 import com.dotdashline.tools.cliparser.DefaultCLIParser;
-import com.dotdashline.tools.cliparser.tests.utils.Sampling;
+import com.dotdashline.tools.cliparser.utils.Sampling;
 
 /**
  * This class demonstrates how to parse parameters in different ways.

@@ -35,7 +35,6 @@ public class OptionTokenTest {
                 ((TestCommand) parser.parse(new String[] { "--Double", "1234.5" })).doubleOption);
         Assert.assertEquals(new BigInteger("12345678901234567890"),
                 ((TestCommand) parser.parse(new String[] { "--BigInteger", "12345678901234567890" })).bigIntegerOption);
-
     }
 
     @CLICommandTag("test")
