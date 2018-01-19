@@ -45,5 +45,5 @@ Use annotation @CLICommandTag to tag a class as command, use @CLIOptionTag or @C
 
 # Authors
 
-Raymond Tsang
-Steven Liang
+- Raymond Tsang
+- Steven Liang
