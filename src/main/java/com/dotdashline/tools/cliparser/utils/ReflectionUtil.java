@@ -12,33 +12,33 @@ import java.util.stream.Collectors;
 import com.dotdashline.tools.cliparser.CLIParserException;
 
 /**
-*
-* @author Raymond Tsang
-* @author Steven Liang
-*
-* @since 0.1
-*/
+ *
+ * @author Raymond Tsang
+ * @author Steven Liang
+ *
+ * @since 0.1
+ */
 
 public class ReflectionUtil {
 
-    public static Object createObject ( Class < ? > aClass , Object obj )
-            throws NoSuchMethodException , SecurityException , InstantiationException , IllegalAccessException ,
-            InvocationTargetException {
+    public static Object createObject(Class<?> aClass, Object obj) throws NoSuchMethodException, SecurityException,
+            InstantiationException, IllegalAccessException, InvocationTargetException {
         @SuppressWarnings("rawtypes")
-        Constructor c = aClass.getConstructor ( obj.getClass () );
-        return c.newInstance ( obj );
+        Constructor c = aClass.getConstructor(obj.getClass());
+        return c.newInstance(obj);
     }
 
     /**
-     * Returns a collection of fields which are annotated by the given annotation.
+     * Returns a collection of fields which are annotated by the given
+     * annotation.
      * 
      * @param objClass
      * @param annoClass
      * @return
      */
-    public static List < Field > getAnnotatedFields ( Class < ? > objClass , Class<? extends Annotation> annotation ) {
-        return Arrays.asList ( objClass.getDeclaredFields () ).stream ()
-                .filter ( x -> x.isAnnotationPresent ( annotation ) ).collect ( Collectors.toList () );
+    public static List<Field> getAnnotatedFields(Class<?> objClass, Class<? extends Annotation> annotation) {
+        return Arrays.asList(objClass.getDeclaredFields()).stream().filter(x -> x.isAnnotationPresent(annotation))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -49,15 +49,33 @@ public class ReflectionUtil {
      * @param value
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
+     * @throws CLIParserException
      */
-    public static void setValueToField ( Object obj , Field field , Object value )
-            throws IllegalAccessException {
-        if ( field.isAccessible () ) {
-            field.set ( obj , value );
-        } else {
-            field.setAccessible ( true );
-            field.set ( obj , value );
-            field.setAccessible ( false );
+    @SuppressWarnings("rawtypes")
+    public static void setValueToField(Object obj, Field field, Object value)
+            throws IllegalAccessException, CLIParserException {
+        boolean isAccessible = field.isAccessible();
+        if (!isAccessible) {
+            field.setAccessible(true);
+        }
+        try {
+            field.set(obj, value);
+        } catch (IllegalArgumentException e) {
+            // try to call the constructor with java.langString
+            Constructor c;
+            try {
+                c = field.getType().getConstructor(String.class);
+                field.set(obj, c.newInstance(value));
+            } catch (IllegalArgumentException | InstantiationException | InvocationTargetException
+                    | NoSuchMethodException | SecurityException e1) {
+                throw new CLIParserException(String.format(
+                        "The token doesn't match the type of the option/param field, or the custom type doesn't provide a java.lang.String constructor: %s %s",
+                        field.getName(), value), e1);
+            }
+        }
+        // reset the field to private if it was private
+        if (!isAccessible) {
+            field.setAccessible(false);
         }
     }
 
@@ -67,7 +85,6 @@ public class ReflectionUtil {
         }
         return clazz.newInstance();
     }
-    
 
     /**
      * Update the rest of the tokens in the queue to the array type field.

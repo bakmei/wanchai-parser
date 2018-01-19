@@ -95,7 +95,7 @@ public abstract class AbstractCLIParser implements CLIParser {
         updateParamValues(cmdObj, tokenModel);
     }
 
-    private void updateOptionValues(Object cmdObj, TokenModel tokenModel) throws IllegalAccessException {
+    private void updateOptionValues(Object cmdObj, TokenModel tokenModel) throws IllegalAccessException, CLIParserException {
         List<OptionToken> optionTokens = tokenModel.getOptionTokens();
         for (OptionToken optionModel : optionTokens) {
             switch (optionModel.getTokens().size()) {
@@ -117,9 +117,7 @@ public abstract class AbstractCLIParser implements CLIParser {
             ParamMeta paramMeta = paramModel.getMeta();
             if (paramMeta.isArray()) {
                 ReflectionUtil.setValuesToArrayField(cmdObj, paramMeta.getField(), paramModel.getTokens());
-                
             } else {
-
                 ReflectionUtil.setValueToField(cmdObj, paramMeta.getField(), paramModel.getTokens().get(0));
             }
         }
