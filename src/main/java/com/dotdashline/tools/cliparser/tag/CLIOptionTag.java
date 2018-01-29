@@ -25,7 +25,7 @@ public @interface CLIOptionTag {
      * 
      * @return
      */
-	String value();
+	String[] value();
 
     String description() default "Please fill in the description.";
 
@@ -55,4 +55,6 @@ public @interface CLIOptionTag {
      * @return a separator, to be used when parsing the inclusive option.  e.g. --sort=3
      */
     char separator() default '=';
+
+    String regex() default "";
 }

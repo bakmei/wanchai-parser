@@ -6,9 +6,7 @@ package com.dotdashline.tools.cliparser.meta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.dotdashline.tools.cliparser.tag.CLICommandTag;
@@ -26,7 +24,7 @@ import com.dotdashline.tools.cliparser.utils.ReflectionUtil;
  */
 public class CommandMeta {
     private Class<?> commandClass;
-    private Map<String, OptionMeta> options = new HashMap<>();
+    private List<OptionMeta> options = new ArrayList<>();
     private List<ParamMeta> parameters = new ArrayList<>();
 
     public CommandMeta(Class<?> c) {
@@ -50,7 +48,7 @@ public class CommandMeta {
     }
 
     public OptionMeta findOption(String token) {
-        for (OptionMeta meta : options.values()) {
+        for (OptionMeta meta : options) {
             if (meta.isMatch(token)) {
                return meta; 
             }
@@ -74,6 +72,6 @@ public class CommandMeta {
         // for each annotated fields, create the OptionElement object.
         Arrays.asList ( c.getDeclaredFields () ).stream ()
         .filter ( x1 -> x1.isAnnotationPresent ( CLIOptionTag.class ) ).collect ( Collectors.toList () ).stream()
-                .forEach(x -> options.put(x.getAnnotation(CLIOptionTag.class).value(), new OptionMeta(x)));
+                .forEach(x -> options.add(new OptionMeta(x)));
     }
 }

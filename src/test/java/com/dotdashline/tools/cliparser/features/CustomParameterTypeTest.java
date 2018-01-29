@@ -10,6 +10,7 @@ import com.dotdashline.tools.cliparser.tag.CLICommandTag;
 import com.dotdashline.tools.cliparser.tag.CLIParamTag;
 
 public class CustomParameterTypeTest {
+
     @Test
     public void test() throws NoSuchFieldException, SecurityException, CLIParserException {
         CLIParser parser = new DefaultCLIParser(MyClass.class);

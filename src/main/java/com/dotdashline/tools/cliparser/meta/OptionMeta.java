@@ -5,6 +5,8 @@
 package com.dotdashline.tools.cliparser.meta;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 
 import com.dotdashline.tools.cliparser.tag.CLIOptionTag;
 
@@ -19,6 +21,7 @@ public class OptionMeta {
 
     private Field field;
     private CLIOptionTag annotation;
+    private List<String> prefixes;
 
     public OptionMeta(Field field) {
         if (field == null) {
@@ -33,10 +36,6 @@ public class OptionMeta {
 
     public Field getField() {
         return field;
-    }
-
-    public String getName() {
-        return annotation.value();
     }
 
     public String getDescription() {
@@ -70,11 +69,22 @@ public class OptionMeta {
         
         // if it is exclusive, then the token has to match with the option name.  e.g. --<option name>
         if (isExclusive()) {
-            return getName().equals(token);
+            return containsPrefix(token);
         }
 
         // if it is inclusive, the token has to contain two values separated by the separator
         String[] keyValuePair = token.split(String.valueOf(getSeparator()));
-        return keyValuePair != null && keyValuePair.length > 0 && keyValuePair[0].equals(getName());
+        return keyValuePair != null && keyValuePair.length > 0 && containsPrefix(keyValuePair[0]);
+    }
+
+    public List<String> getPrefixes() {
+        if (prefixes == null) {
+            prefixes = Arrays.asList(annotation.value());
+        }
+        return prefixes;
+    }
+
+    private boolean containsPrefix(String token) {
+        return getPrefixes().contains(token);
     }
 }
