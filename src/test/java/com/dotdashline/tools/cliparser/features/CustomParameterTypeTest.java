@@ -17,6 +17,9 @@ public class CustomParameterTypeTest {
         ((MyClass) obj).verify();
     }
 
+    /**
+     * Handles format: "connect localhost:1234"
+     */
     @CLICommandTag("connect")
     public static class MyClass {
         @CLIParamTag(value = "tcpConfig", description = "Specify <host>:<port> for the connection.")
@@ -29,13 +32,17 @@ public class CustomParameterTypeTest {
         }
     }
 
+    /**
+     * Customized defined class for storing the values.
+     */
     public static class HostPortPair {
         private String host;
         private int port;
 
         /**
          * Constructor to create POJO for storing host and port.
-         * 
+         * Parse the input internally. 
+         *
          * @param hostAndPort
          */
         public HostPortPair(String hostAndPort) {

@@ -14,7 +14,7 @@ import com.dotdashline.tools.cliparser.tag.CLIOptionTag;
  * @author Steven Liang
  *
  * @since 0.1
-*/
+ */
 public class OptionMeta {
 
     private Field field;
@@ -43,16 +43,38 @@ public class OptionMeta {
         return annotation.description();
     }
 
-    public int getAddtionalTokenCount() {
-        return annotation.addtionalTokenCount();
+    public char getSeparator() {
+        return annotation.separator();
     }
-    
+
+    /**
+     * Return true if the option expect an additional parameter. The default
+     * value is false defined in {@link CLIOptionTag}
+     * 
+     * i.e "--option1", "option1Param" instead of "--option1=option1Param"
+     *
+     * @return whether the option format is exclusive or not.
+     */
+    public boolean isExclusive() {
+        return annotation.exclusive();
+    }
+
     public boolean isArray() {
-        return field == null ? false :field.getType().isArray();
+        return field == null ? false : field.getType().isArray();
     }
 
     public boolean isMatch(String token) {
-        return getName().equals(token);
-    }
+        if (token == null) {
+            return false;
+        }
+        
+        // if it is exclusive, then the token has to match with the option name.  e.g. --<option name>
+        if (isExclusive()) {
+            return getName().equals(token);
+        }
 
+        // if it is inclusive, the token has to contain two values separated by the separator
+        String[] keyValuePair = token.split(String.valueOf(getSeparator()));
+        return keyValuePair != null && keyValuePair.length > 0 && keyValuePair[0].equals(getName());
+    }
 }

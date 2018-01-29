@@ -1,3 +1,7 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package com.dotdashline.tools.cliparser.utils;
 
 import java.lang.annotation.Annotation;
@@ -6,6 +10,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,8 +69,12 @@ public class ReflectionUtil {
             // try to call the constructor with java.langString
             Constructor c;
             try {
-                c = field.getType().getConstructor(String.class);
-                field.set(obj, c.newInstance(value));
+                if (field.getType().isPrimitive()) {
+                    setPrimitiveValueToField(obj, field, value);
+                } else {
+                    c = field.getType().getConstructor(String.class);
+                    field.set(obj, c.newInstance(value));
+                }
             } catch (IllegalArgumentException | InstantiationException | InvocationTargetException
                     | NoSuchMethodException | SecurityException e1) {
                 throw new CLIParserException(String.format(
@@ -76,6 +85,35 @@ public class ReflectionUtil {
         // reset the field to private if it was private
         if (!isAccessible) {
             field.setAccessible(false);
+        }
+    }
+
+    private static void setPrimitiveValueToField(Object obj, Field field, Object value)
+            throws IllegalArgumentException, IllegalAccessException {
+
+        if (field.getType().equals(boolean.class)) {
+            field.setBoolean(obj, Boolean.parseBoolean(value.toString()));
+
+        } else if (field.getType().equals(int.class)) {
+            field.setInt(obj, Integer.parseInt(value.toString()));
+
+        } else if (field.getType().equals(long.class)) {
+            field.setLong(obj, Long.parseLong(value.toString()));
+
+        } else if (field.getType().equals(float.class)) {
+            field.setFloat(obj, Float.parseFloat(value.toString()));
+
+        } else if (field.getType().equals(double.class)) {
+            field.setDouble(obj, Double.parseDouble(value.toString()));
+
+        } else if (field.getType().equals(byte.class)) {
+            field.setByte(obj, Byte.parseByte(value.toString()));
+
+        } else if (field.getType().equals(short.class)) {
+            field.setShort(obj, Short.parseShort(value.toString()));
+
+        } else if (field.getType().equals(char.class)) {
+            field.setChar(obj, value.toString().charAt(0));
         }
     }
 
@@ -118,5 +156,56 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             throw new CLIParserException("Failed to set array type values into parameter field.", e);
         }
+    }
+
+    public static String toString(Object obj) {
+        return toString(obj, 0);
+    }
+
+    private static String toString(Object obj, int indent) {
+
+        if (obj == null) {
+            return "<NULL>";
+        }
+
+        StringBuilder ret = new StringBuilder();
+        String newLine = System.getProperty("line.separator");
+
+        ret.append(getIndentString(indent)).append("[ ").append(obj.getClass().getSimpleName()).append(" ]").append(newLine);
+
+        final int childIndent = indent + 1;
+        Arrays.asList(obj.getClass().getDeclaredFields()).stream().forEach(x -> {
+            ret.append(getIndentString(childIndent)).append(x.getName()).append(" (").append(x.getType().getSimpleName()).append(") -> ");
+            Object childObj = null;
+            boolean isAccessible = x.isAccessible();
+            if (!isAccessible) {
+                x.setAccessible(true);
+            }
+            try {
+                childObj = x.get(obj);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                ret.append(e.getMessage());
+            }
+
+            // restore the value
+            if (!isAccessible) {
+                x.setAccessible(false);
+            }
+
+            if (childObj == null || childObj.getClass() == null || childObj.getClass().getPackage() == null) {
+                ret.append("<NULL>");
+            } else if (childObj.getClass().getPackage().getName().startsWith("com.dotdashline")) {
+                ret.append(toString(childObj, childIndent + 1));
+            } else {
+                ret.append(childObj.toString());
+            }
+            ret.append(newLine);
+        });
+
+        return ret.toString();
+    }
+
+    private static Object getIndentString(int indent) {
+        return String.join("", Collections.nCopies(indent * 3, " "));
     }
 }

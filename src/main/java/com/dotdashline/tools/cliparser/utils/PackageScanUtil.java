@@ -1,3 +1,7 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package com.dotdashline.tools.cliparser.utils;
 
 import java.io.File;

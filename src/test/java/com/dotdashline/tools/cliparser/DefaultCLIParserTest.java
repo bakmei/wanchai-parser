@@ -1,28 +1,31 @@
 package com.dotdashline.tools.cliparser;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-
-import com.dotdashline.tools.cliparser.CLIParser;
-import com.dotdashline.tools.cliparser.CLIParserException;
 
 public class DefaultCLIParserTest {
 
-    @Mock
     private CLIParser parser;
 
     @Before
     public void setUp() throws Exception {
+        // any class is fine
+        parser = new DefaultCLIParser(DefaultCLIParserTest.class);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void test_null_token() throws CLIParserException {
-        parser.parse(null);
+    @Test
+    public void test_null_cmd() throws CLIParserException {
+        Assert.assertEquals(DefaultCommand.class, parser.parse(null).getClass());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void test_empty_token() throws CLIParserException {
-        parser.parse(new String[] {});
+    @Test
+    public void test_empty_cmd() throws CLIParserException {
+        Assert.assertEquals(DefaultCommand.class, parser.parse(new String[] {}).getClass());
+    }
+
+    @Test
+    public void test_missing_cmd() throws CLIParserException {
+        Assert.assertEquals(DefaultCommand.class, parser.parse(new String[] { "undefined" }).getClass());
     }
 }

@@ -29,7 +29,7 @@ public class SampleTest {
 
     @Test
     public void test_word_fun_reverse() throws CLIParserException {
-        WordCommand obj = (WordCommand) parser.parse("SHOWME --reverse you are How".split(" "));
+        WordCommand obj = (WordCommand) parser.parse("SHOWME --reverse=true you are How".split(" "));
         Assert.assertEquals("How are you", obj.execute());
     }
 }

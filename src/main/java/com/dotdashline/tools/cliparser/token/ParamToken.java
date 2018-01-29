@@ -26,7 +26,7 @@ public class ParamToken {
         this.meta = meta;
         this.tokens = tokens;
     }
-    
+
     public ParamMeta getMeta() {
         return meta;
     }

@@ -6,7 +6,6 @@ package com.dotdashline.tools.cliparser.token;
 
 import java.util.List;
 
-
 import com.dotdashline.tools.cliparser.meta.OptionMeta;
 /**
  * This class associates the metadata with the token.

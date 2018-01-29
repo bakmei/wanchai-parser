@@ -56,6 +56,18 @@ public class TokenModel {
         init(CollectionUtil.arrayToQueue(this.tokens));
     }
 
+    public CommandToken getCommandToken() {
+        return commandToken;
+    }
+
+    public List<OptionToken> getOptionTokens() {
+        return optionTokens;
+    }
+
+    public List<ParamToken> getParamTokens() {
+        return paramTokens;
+    }
+
     private void init(Queue<String> tokens) throws CLIParserException {
         createCommandToken(tokens);
         createOptionTokens(commandToken, tokens);
@@ -98,15 +110,4 @@ public class TokenModel {
         commandToken = new CommandToken(metaModel.getCommand(token), token);
     }
 
-    public CommandToken getCommandToken() {
-        return commandToken;
-    }
-
-    public List<OptionToken> getOptionTokens() {
-        return optionTokens;
-    }
-
-    public List<ParamToken> getParamTokens() {
-        return paramTokens;
-    }
 }

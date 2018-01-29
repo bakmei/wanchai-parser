@@ -17,7 +17,7 @@ import com.dotdashline.tools.cliparser.meta.CommandMeta;
 public class CommandToken {
 
     private CommandMeta meta;
-    
+
     private String value;
 
     public CommandToken(CommandMeta meta, String token) {
@@ -28,5 +28,8 @@ public class CommandToken {
     public CommandMeta getMeta() {
         return meta;
     }
-
+    
+    public String getValue() {
+        return value;
+    }
 }

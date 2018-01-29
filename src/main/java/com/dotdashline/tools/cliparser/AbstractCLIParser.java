@@ -19,6 +19,7 @@ import com.dotdashline.tools.cliparser.token.TokenModel;
 import com.dotdashline.tools.cliparser.token.TokenModelFactory;
 import com.dotdashline.tools.cliparser.utils.PackageScanUtil;
 import com.dotdashline.tools.cliparser.utils.ReflectionUtil;
+import com.dotdashline.tools.cliparser.utils.TokenParsingUtil;
 
 /**
  * This is the default implementation of the CLIParser interface. The goal of
@@ -90,28 +91,43 @@ public abstract class AbstractCLIParser implements CLIParser {
         return cmdObj;
     }
 
-    private void updateObjectValues(Object cmdObj, TokenModel tokenModel) throws IllegalAccessException, CLIParserException {
+    private void updateObjectValues(Object cmdObj, TokenModel tokenModel)
+            throws IllegalAccessException, CLIParserException {
         updateOptionValues(cmdObj, tokenModel);
         updateParamValues(cmdObj, tokenModel);
     }
 
-    private void updateOptionValues(Object cmdObj, TokenModel tokenModel) throws IllegalAccessException, CLIParserException {
+    private void updateOptionValues(Object cmdObj, TokenModel tokenModel)
+            throws IllegalAccessException, CLIParserException {
         List<OptionToken> optionTokens = tokenModel.getOptionTokens();
         for (OptionToken optionModel : optionTokens) {
             switch (optionModel.getTokens().size()) {
             case 1:
-                ReflectionUtil.setValueToField(cmdObj, optionModel.getMeta().getField(), true);
+                if (!optionModel.getMeta().isExclusive()) {
+                    Object value = TokenParsingUtil.parseInclusiveOptionValue(optionModel.getMeta(),
+                            optionModel.getTokens().get(0));
+                    // if the value return null, then default the value to true.
+                    // expects the option field is defined as boolean, the
+                    // simple form.
+                    ReflectionUtil.setValueToField(cmdObj, optionModel.getMeta().getField(),
+                            value != null ? value : true);
+                }
                 break;
             case 2:
-                ReflectionUtil.setValueToField(cmdObj, optionModel.getMeta().getField(),
-                        optionModel.getTokens().get(1));
+                if (optionModel.getMeta().isExclusive()) {
+                    ReflectionUtil.setValueToField(cmdObj, optionModel.getMeta().getField(),
+                            optionModel.getTokens().get(1));
+                }
+                break;
             default:
+                // not setting anything
             }
         }
 
     }
 
-    private void updateParamValues(Object cmdObj, TokenModel tokenModel) throws IllegalAccessException, CLIParserException {
+    private void updateParamValues(Object cmdObj, TokenModel tokenModel)
+            throws IllegalAccessException, CLIParserException {
         List<ParamToken> paramTokens = tokenModel.getParamTokens();
         for (ParamToken paramModel : paramTokens) {
             ParamMeta paramMeta = paramModel.getMeta();

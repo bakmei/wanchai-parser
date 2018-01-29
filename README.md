@@ -1,5 +1,5 @@
 # WanChai Parser
-A very easy to use command line parser library for Java developers.
+A light weight and easy to use command line parser library for Java developers.
 
 
 # Design Overview
