@@ -1,6 +1,45 @@
 # WanChai Parser
 A light weight and easy to use command line parser library for Java developers.
 
+# As Easy as This Example
+
+### Reverse a sentense.
+
+##### Get a handle of the parser
+```
+CLIParser parser = new DefaultCLIParser( this.getClass() );
+```
+##### or
+```
+CLIParser parser = new DefaultCLIParser(new String[] { this.getClass().getPackage().getName() });
+```
+##### Parse input from command line
+```
+WordCommand obj = (WordCommand) parser.parse("SHOWME --reverse=true you are How".split(" "));
+```
+##### Verify the result
+```
+Assert.assertEquals("How are you", obj.execute());
+```
+##### Define how the command works
+```
+@CLICommandTag("SHOWME")
+public class WordCommand {
+	
+	@CLIParamTag
+	private String[] words;
+	
+	@CLIOptionTag("--reverse")
+	private Boolean isReverse = false;
+  
+  public String execute() {
+     if (isReverse) {
+        return reverse(wordds);
+     }
+     ...
+  }
+}
+```
 
 # Design Overview
 
