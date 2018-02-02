@@ -16,16 +16,16 @@ public class DefaultCLIParserTest {
 
     @Test
     public void test_null_cmd() throws CLIParserException {
-        Assert.assertEquals(DefaultCommand.class, parser.parse(null).getClass());
+        Assert.assertEquals(null, parser.parse(null));
     }
 
     @Test
     public void test_empty_cmd() throws CLIParserException {
-        Assert.assertEquals(DefaultCommand.class, parser.parse(new String[] {}).getClass());
+        Assert.assertEquals(null, parser.parse(new String[] {}));
     }
 
     @Test
     public void test_missing_cmd() throws CLIParserException {
-        Assert.assertEquals(DefaultCommand.class, parser.parse(new String[] { "undefined" }).getClass());
+        Assert.assertEquals(null, parser.parse(new String[] { "undefined" }));
     }
 }

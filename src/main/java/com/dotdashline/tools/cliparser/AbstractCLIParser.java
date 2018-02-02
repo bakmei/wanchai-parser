@@ -7,7 +7,6 @@ package com.dotdashline.tools.cliparser;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import com.dotdashline.tools.cliparser.meta.MetaModel;
 import com.dotdashline.tools.cliparser.meta.MetaModelFactory;
@@ -45,8 +44,8 @@ public abstract class AbstractCLIParser implements CLIParser {
      * 
      * @param taggedClasses
      */
-    public AbstractCLIParser(Class<?>... taggedClasses) {
-        metaModel = MetaModelFactory.createModel(taggedClasses);
+    public AbstractCLIParser(Class<?>... cmdClasses) {
+        metaModel = MetaModelFactory.createModel(cmdClasses);
     }
 
     /**
@@ -57,21 +56,23 @@ public abstract class AbstractCLIParser implements CLIParser {
      * @throws CLIParserException
      */
     public AbstractCLIParser(String... scanPackageNames) throws CLIParserException {
-        this(findCommandTaggedClasses(Arrays.asList(scanPackageNames)));
+        this(gatherCommandClasses(Arrays.asList(scanPackageNames)));
     }
 
     /**
-     * Entry point for the parser.
+     * The entry point.
      */
     @Override
     public Object parse(String... tokens) throws CLIParserException {
 
-        // Lookup the {@link CommandElement} which contains all the metadata for
-        // the
-        // tagged class.
+        if (tokens == null || tokens.length == 0) {
+            throw new CLIParserException("Missing user input.", ErrorCode.NO_INPUT);
+        }
+
+        // create a {@link TokenModel} from user input
         TokenModel tokenModel = TokenModelFactory.createTokenModel(metaModel, tokens);
 
-        // instantiate the command object
+        // instantiate the corresponding command object
         Object cmdObj;
         try {
             cmdObj = ReflectionUtil.createCommandObject(tokenModel.getCommandToken().getMeta().getCommandClass());
@@ -79,7 +80,7 @@ public abstract class AbstractCLIParser implements CLIParser {
             throw new CLIParserException("Failed to create the command object.", e);
         }
 
-        // update the values to the object
+        // populate the user input into the command object
         try {
             updateObjectValues(cmdObj, tokenModel);
         } catch (IllegalAccessException e) {
@@ -91,15 +92,35 @@ public abstract class AbstractCLIParser implements CLIParser {
         return cmdObj;
     }
 
+    /**
+     * Read the user input from the {@link TokenModel} and populate into the
+     * command object.
+     *
+     * @param cmdObj
+     * @param tokenModel
+     * @throws IllegalAccessException
+     * @throws CLIParserException
+     */
     private void updateObjectValues(Object cmdObj, TokenModel tokenModel)
             throws IllegalAccessException, CLIParserException {
         updateOptionValues(cmdObj, tokenModel);
         updateParamValues(cmdObj, tokenModel);
     }
 
+    /**
+     * Read the options input from the {@link TokenModel} and populate into the
+     * command object.
+     * 
+     * @param cmdObj
+     * @param tokenModel
+     * @throws IllegalAccessException
+     * @throws CLIParserException
+     */
     private void updateOptionValues(Object cmdObj, TokenModel tokenModel)
             throws IllegalAccessException, CLIParserException {
+
         List<OptionToken> optionTokens = tokenModel.getOptionTokens();
+
         for (OptionToken optionModel : optionTokens) {
             switch (optionModel.getTokens().size()) {
             case 1:
@@ -126,6 +147,15 @@ public abstract class AbstractCLIParser implements CLIParser {
 
     }
 
+    /**
+     * Read the parameters input from {@link TokenModel} and populate into the
+     * command object.
+     *
+     * @param cmdObj
+     * @param tokenModel
+     * @throws IllegalAccessException
+     * @throws CLIParserException
+     */
     private void updateParamValues(Object cmdObj, TokenModel tokenModel)
             throws IllegalAccessException, CLIParserException {
         List<ParamToken> paramTokens = tokenModel.getParamTokens();
@@ -139,7 +169,14 @@ public abstract class AbstractCLIParser implements CLIParser {
         }
     }
 
-    protected static Class<?>[] findCommandTaggedClasses(List<String> packageNames) throws CLIParserException {
+    /**
+     * Gather all the classes which are annotated by {@link CLICommandTag}.
+     *
+     * @param packageNames
+     * @return
+     * @throws CLIParserException
+     */
+    protected static Class<?>[] gatherCommandClasses(List<String> packageNames) throws CLIParserException {
         try {
             return PackageScanUtil.findAnnotatedClasses(CLICommandTag.class, packageNames.toArray(new String[] {}))
                     .values().toArray(new Class<?>[] {});
@@ -147,10 +184,5 @@ public abstract class AbstractCLIParser implements CLIParser {
             throw new CLIParserException(
                     String.format("Failure while scanning CLICommandTag classes from packages: %s", packageNames), e);
         }
-    }
-
-    @Override
-    public Set<Class<?>> getAllCommandClasses() {
-        return metaModel.getAllCommandClasses();
     }
 }

@@ -26,10 +26,10 @@ public class ParamMetaTest {
     }
 
     static class MyClass {
-        @CLIParamTag(value="a_name", description="a sample param.", weight=0.99d) 
+        @CLIParamTag(value="a_name", desc="a sample param.", weight=0.99d) 
         private boolean paramField;
 
-        @CLIParamTag(value="array", description="a sample array field.", weight=0.99d) 
+        @CLIParamTag(value="array", desc="a sample array field.", weight=0.99d) 
         private String[] arrayField;
     }
 }

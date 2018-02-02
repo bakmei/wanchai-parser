@@ -39,7 +39,7 @@ public class OptionMeta {
     }
 
     public String getDescription() {
-        return annotation.description();
+        return annotation.desc();
     }
 
     public char getSeparator() {

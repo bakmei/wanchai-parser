@@ -24,6 +24,7 @@ public class SampleTest {
     @Test
     public void test_word_fun() throws CLIParserException {
         WordCommand obj = (WordCommand) parser.parse("SHOWME How are you".split(" "));
+        Assert.assertNotNull(obj);
         Assert.assertEquals("How are you", obj.execute());
     }
 

@@ -41,7 +41,7 @@ public class TokenParsingUtil {
             // consume the token that matched
             optionTokens.add(tokens.poll());
 
-            // consume one more tokens if
+            // consume the next tokens from the queue if:
             // 1. the option is exclusive
             // 2. the queue has something
             // 3. the next element does not match with other any other options

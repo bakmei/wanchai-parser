@@ -9,7 +9,7 @@ import com.dotdashline.tools.cliparser.tag.CLIParamTag;
  * This class will subtract the former parameters from the first parameters.
  *
  */
-@CLICommandTag("SUBTRACT")
+@CLICommandTag(value = "SUBTRACT", desc = "Substract the former values from the first value.")
 public class SubtractCommand implements Calc {
 
     /**
@@ -19,9 +19,9 @@ public class SubtractCommand implements Calc {
     private Double[] values;
 
     /**
-     * Implement the interface for returning a result to the caller.
-     * The interface is optional, just to provide a generic way for the parser to execute
-     * the command.
+     * Implement the interface for returning a result to the caller. The
+     * interface is optional, just to provide a generic way for the parser to
+     * execute the command.
      */
     @Override
     public String calc() {

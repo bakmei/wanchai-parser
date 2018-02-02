@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.dotdashline.tools.cliparser.CLIParserException;
 import com.dotdashline.tools.cliparser.DefaultCLIParser;
-import com.dotdashline.tools.cliparser.DefaultCommand;
+import com.dotdashline.tools.cliparser.DefaultHelpCommand;
 import com.dotdashline.tools.cliparser.tag.CLICommandTag;
 
 public class CommandTokenTest {
@@ -19,6 +19,7 @@ public class CommandTokenTest {
      * @throws CLIParserException
      */
     @Test
+    @Deprecated
     public void test_default_cases() throws CLIParserException {
         DefaultCLIParser parser = new DefaultCLIParser("xyz");
         Set<Class<?>> actual = parser.getAllCommandClasses();
@@ -26,12 +27,7 @@ public class CommandTokenTest {
         // token model
         Assert.assertNotNull(actual);
         Assert.assertEquals(1, actual.size());
-        Assert.assertEquals(DefaultCommand.class, actual.iterator().next());
-        
-        // should fall back to the default command with no such commend. 
-        Assert.assertEquals(DefaultCommand.class, parser.parse(null).getClass());
-        Assert.assertEquals(DefaultCommand.class, parser.parse("").getClass());
-        Assert.assertEquals(DefaultCommand.class, parser.parse("something").getClass());
+        Assert.assertEquals(DefaultHelpCommand.class, actual.iterator().next());
     }
 
     /**

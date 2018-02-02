@@ -17,18 +17,18 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CLIParamTag {
 
-    String value() default "";
+    String value() default "<name of this param>";
     
     /**
      * Description of the parameter.  This field will be used when generating the help message.
      *
      * @return
      */
-    String description() default "Please fill in the description.";
+    String desc() default "<name of this description>";
 
     /**
-     * This field affects the order of parsing.
+     * The recommended range is -1.0 to 1.0
      * @return
      */
-    double weight() default 0.5d;
+    double weight() default 0.0f;
 }

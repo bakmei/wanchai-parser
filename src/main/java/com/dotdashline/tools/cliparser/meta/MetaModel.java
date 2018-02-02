@@ -5,9 +5,10 @@
 package com.dotdashline.tools.cliparser.meta;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,6 @@ import com.dotdashline.tools.cliparser.tag.CLICommandTag;
  */
 public class MetaModel {
     private Map<String, CommandMeta> commands = new HashMap<>();
-    private CommandMeta defaultCommand;
 
     /**
      * Creating a metadata to associate with the command tagged class. if the
@@ -35,18 +35,19 @@ public class MetaModel {
     public void addCommand(Class<?> c) {
         Annotation anno = c.getAnnotation(CLICommandTag.class);
         if (anno != null) {
-            if (c.getAnnotation(CLICommandTag.class).isDefault()) {
-                defaultCommand = new CommandMeta(c);
-            }
             commands.put(c.getAnnotation(CLICommandTag.class).value(), new CommandMeta(c));
         }
     }
 
     public CommandMeta getCommand(String cmd) throws CLIParserException {
-        return Optional.ofNullable(commands.get(cmd)).orElse(defaultCommand);
+        return commands.get(cmd);
     }
 
     public Set<Class<?>> getAllCommandClasses() {
         return commands.values().stream().map(x -> x.getCommandClass()).collect(Collectors.toSet());
+    }
+
+    public List<CommandMeta> getAllCommandMetas() {
+        return new ArrayList<>(commands.values());
     }
 }

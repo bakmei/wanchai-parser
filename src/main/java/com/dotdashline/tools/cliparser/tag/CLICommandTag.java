@@ -17,13 +17,9 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CLICommandTag {
 
-    /**
-     * Stores the command token for the annotated class for matching with the user
-     * input.
-     * @return
-     */
+    // the name of the command to be used in matching with the input.
+    // if this value is an empty string, then the regex will be used if defined.
 	String value();
 
-	boolean isDefault() default false;
-	
+	String desc() default "<name of this description>";
 }

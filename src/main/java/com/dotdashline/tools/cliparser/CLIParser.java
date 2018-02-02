@@ -4,8 +4,6 @@
  */
 package com.dotdashline.tools.cliparser;
 
-import java.util.Set;
-
 /**
  * This interface defines the entry point for parsing the user input.
  *
@@ -25,6 +23,4 @@ public interface CLIParser {
      */
     Object parse(String... tokens) throws CLIParserException;
     
-
-    Set<Class<?>> getAllCommandClasses();
 }
