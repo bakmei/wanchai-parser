@@ -11,19 +11,19 @@ import com.dotdashline.tools.cliparser.tag.CLIParamTag;
  * This class will add up a list of integers.
  *
  */
-@CLICommandTag("ADD")
+@CLICommandTag(value = "ADD", desc = "Sum up the given numbers.")
 public class AddCommand implements Calc {
 
     /**
      * The parser will automatically detect the type and fill up the values.
      */
-	@CLIParamTag
-	private Double[] values;
+    @CLIParamTag()
+    private Double[] values;
 
     /**
-     * Implement the interface for returning a result to the caller.
-     * The interface is optional, just to provide a generic way for the parser to execute
-     * the command.
+     * Implement the interface for returning a result to the caller. The
+     * interface is optional, just to provide a generic way for the parser to
+     * execute the command.
      */
     @Override
     public String calc() {

@@ -26,6 +26,8 @@ import com.dotdashline.tools.cliparser.CLIParserException;
 
 public class ReflectionUtil {
 
+    public static final String newLine = System.getProperty("line.separator");
+
     public static Object createObject(Class<?> aClass, Object obj) throws NoSuchMethodException, SecurityException,
             InstantiationException, IllegalAccessException, InvocationTargetException {
         @SuppressWarnings("rawtypes")
@@ -169,7 +171,6 @@ public class ReflectionUtil {
         }
 
         StringBuilder ret = new StringBuilder();
-        String newLine = System.getProperty("line.separator");
 
         ret.append(getIndentString(indent)).append("[ ").append(obj.getClass().getSimpleName()).append(" ]").append(newLine);
 

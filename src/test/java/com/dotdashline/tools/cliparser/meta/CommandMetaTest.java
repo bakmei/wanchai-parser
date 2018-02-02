@@ -41,27 +41,27 @@ public class CommandMetaTest {
 
     @CLICommandTag("mycommand")
     static class MyCommand{
-        @CLIOptionTag(value="a_name", description="a sample option.") 
+        @CLIOptionTag(value="a_name", desc="a sample option.") 
         private boolean optionField;
 
-        @CLIParamTag(value="a_name", description="a sample param.", weight=0.99d) 
+        @CLIParamTag(value="a_name", desc="a sample param.", weight=0.99d) 
         private String[] paramField;
     }
 
     static class ClassWithoutAnnotation {
-        @CLIOptionTag(value="a_name", description="a sample option.") 
+        @CLIOptionTag(value="a_name", desc="a sample option.") 
         private boolean optionField;
 
-        @CLIParamTag(value="a_name", description="a sample param.", weight=0.99d) 
+        @CLIParamTag(value="a_name", desc="a sample param.", weight=0.99d) 
         private String[] paramField;
     } 
 
     @CLICommandTag("mycommand")
     static class My{
-        @CLIOptionTag(value="a_name", description="a sample option.") 
+        @CLIOptionTag(value="a_name", desc="a sample option.") 
         private boolean optionField;
 
-        @CLIParamTag(value="a_name", description="a sample param.", weight=0.99d) 
+        @CLIParamTag(value="a_name", desc="a sample param.", weight=0.99d) 
         private String[] paramField;
     }  
     

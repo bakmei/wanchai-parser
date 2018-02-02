@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Queue;
 
 import com.dotdashline.tools.cliparser.CLIParserException;
+import com.dotdashline.tools.cliparser.ErrorCode;
+import com.dotdashline.tools.cliparser.meta.CommandMeta;
 import com.dotdashline.tools.cliparser.meta.MetaModel;
 import com.dotdashline.tools.cliparser.meta.OptionMeta;
 import com.dotdashline.tools.cliparser.meta.ParamMeta;
@@ -44,15 +46,9 @@ public class TokenModel {
     TokenModel(MetaModel metaModel, String[] tokens) throws CLIParserException {
         this.metaModel = metaModel;
         if (tokens == null || tokens.length == 0) {
-            /**
-             * trigger the default command as the empty string will match with
-             * the default command. To define a default command,
-             * {@see DefaultCommand}
-             */
-            this.tokens = new String[] { "" };
-        } else {
-            this.tokens = tokens;
+            throw new CLIParserException(ErrorCode.NO_INPUT);
         }
+        this.tokens = tokens;
         init(CollectionUtil.arrayToQueue(this.tokens));
     }
 
@@ -72,6 +68,22 @@ public class TokenModel {
         createCommandToken(tokens);
         createOptionTokens(commandToken, tokens);
         createParamTokens(commandToken, tokens);
+    }
+
+    private void createCommandToken(Queue<String> tokens) throws CLIParserException {
+        CommandMeta commandMeta;
+        String token = null;
+        if (tokens.isEmpty() || (token = tokens.poll()) == null
+                || (commandMeta = metaModel.getCommand(token)) == null) {
+            throw new CLIParserException(ErrorCode.INVALID_COMMAND, new String[] { token });
+        }
+        commandToken = new CommandToken(commandMeta, token);
+    }
+
+    private void createOptionTokens(CommandToken commandToken, Queue<String> tokens) {
+        Map<OptionMeta, List<String>> output = new HashMap<>();
+        TokenParsingUtil.parseOptionTokens(tokens, commandToken.getMeta(), output);
+        output.entrySet().stream().forEach(e -> optionTokens.add(new OptionToken(e.getKey(), e.getValue())));
     }
 
     /**
@@ -98,16 +110,4 @@ public class TokenModel {
             }
         });
     }
-
-    private void createOptionTokens(CommandToken commandToken, Queue<String> tokens) {
-        Map<OptionMeta, List<String>> output = new HashMap<>();
-        TokenParsingUtil.parseOptionTokens(tokens, commandToken.getMeta(), output);
-        output.entrySet().stream().forEach(e -> optionTokens.add(new OptionToken(e.getKey(), e.getValue())));
-    }
-
-    private void createCommandToken(Queue<String> tokens) throws CLIParserException {
-        String token = tokens.isEmpty() ? "" : tokens.poll();
-        commandToken = new CommandToken(metaModel.getCommand(token), token);
-    }
-
 }

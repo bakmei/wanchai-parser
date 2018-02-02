@@ -35,7 +35,7 @@ public class ParamMeta implements Comparable<ParamMeta> {
     }
 
     public String getDescription() {
-        return annotation == null ? "" : annotation.description();
+        return annotation == null ? "" : annotation.desc();
     }
     
     public double getWeight() {

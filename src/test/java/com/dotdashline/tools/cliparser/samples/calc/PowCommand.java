@@ -11,7 +11,7 @@ import com.dotdashline.tools.cliparser.tag.CLIParamTag;
  * will be ignored.
  *
  */
-@CLICommandTag("POW")
+@CLICommandTag(value="POW", desc="Calculate the power to the first value.")
 public class PowCommand implements Calc {
 
     /**

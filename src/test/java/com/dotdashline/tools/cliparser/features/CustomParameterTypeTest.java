@@ -23,7 +23,7 @@ public class CustomParameterTypeTest {
      */
     @CLICommandTag("connect")
     public static class MyClass {
-        @CLIParamTag(value = "tcpConfig", description = "Specify <host>:<port> for the connection.")
+        @CLIParamTag(value = "tcpConfig", desc = "Specify <host>:<port> for the connection.")
         private HostPortPair hostPortPair;
 
         public void verify() {

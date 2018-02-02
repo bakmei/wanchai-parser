@@ -27,14 +27,12 @@ public class OptionMetaTest {
 
         Assert.assertEquals(MyClass.class.getDeclaredField("alternativeOptionField"), m.getField());
     }
-    
-    
 
     static class MyClass {
-        @CLIOptionTag(value = "a_name", description = "a sample option.", exclusive = true)
+        @CLIOptionTag(value = "a_name", desc = "a sample option.", exclusive = true)
         private boolean optionField;
 
-        @CLIOptionTag(value = {"--first_prefix", "-second_prefix"}, description = "support alternative option prefix..")
+        @CLIOptionTag(value = {"--first_prefix", "-second_prefix"}, desc = "support alternative option prefix..")
         private boolean alternativeOptionField;
     }
 }

@@ -27,7 +27,7 @@ public @interface CLIOptionTag {
      */
 	String[] value();
 
-    String description() default "Please fill in the description.";
+    String desc() default "<name of this description>";
 
     /**
      * Default will be set to 'false', non-exclusive (inclusive).

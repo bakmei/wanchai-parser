@@ -4,8 +4,11 @@
  */
 package com.dotdashline.tools.cliparser;
 
+import com.dotdashline.tools.cliparser.token.TokenModel;
+
 /**
- * This exception represents any errors that occurred within the CLI parser implementation.
+ * This exception represents any errors that occurred within the CLI parser
+ * implementation.
  *
  * @author Raymond Tsang
  * @author Steven Liang
@@ -16,23 +19,46 @@ package com.dotdashline.tools.cliparser;
 @SuppressWarnings("serial")
 public class CLIParserException extends Exception {
 
-	public CLIParserException() {
-	    super();
-	}
+    private ErrorCode errorCode;
+    private String[] userInput;
+    private TokenModel tokenModel;
 
-	public CLIParserException(String arg0) {
-		super(arg0);
-	}
+    public TokenModel getTokenModel() {
+        return tokenModel;
+    }
 
-	public CLIParserException(Throwable arg0) {
-		super(arg0);
-	}
+    public CLIParserException() {
+        super();
+    }
 
-	public CLIParserException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
-	}
+    public CLIParserException(ErrorCode errorCode) {
+        super();
+        this.errorCode = errorCode;
+    }
 
-	public CLIParserException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
-		super(arg0, arg1, arg2, arg3);
-	}
+    public CLIParserException(String msg) {
+        super(msg);
+    }
+
+    public CLIParserException(String msg, ErrorCode errorCode) {
+        super(msg);
+        this.errorCode = errorCode;
+    }
+
+    public CLIParserException(String msg, Throwable arg1) {
+        super(msg, arg1);
+    }
+
+    public CLIParserException(ErrorCode errorCode, String[] userInput) {
+        this.errorCode = errorCode;
+        this.userInput = userInput;
+    }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
+
+    public String[] getUserInput() {
+        return userInput;
+    }
 }

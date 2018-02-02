@@ -43,6 +43,10 @@ public class CommandMeta {
         return commandClass;
     }
 
+    public List<OptionMeta> getOptionMeta() {
+        return options;
+    }
+
     public List<ParamMeta> getParamMeta() {
         return parameters;
     }
@@ -73,5 +77,17 @@ public class CommandMeta {
         Arrays.asList ( c.getDeclaredFields () ).stream ()
         .filter ( x1 -> x1.isAnnotationPresent ( CLIOptionTag.class ) ).collect ( Collectors.toList () ).stream()
                 .forEach(x -> options.add(new OptionMeta(x)));
+    }
+
+    public String getName() {
+        return getCommandTag().value();
+    }
+
+    private CLICommandTag getCommandTag() {
+        return getCommandClass().getAnnotation(CLICommandTag.class);
+    }
+
+    public Object getDescription() {
+        return getCommandTag().desc();
     }
 }
