@@ -16,19 +16,35 @@ import com.dotdashline.tools.cliparser.meta.CommandMeta;
  */
 public class CommandToken {
 
+    // associates with the command metadata
     private CommandMeta meta;
 
+    // associates with the user input commonad
     private String value;
 
+    /**
+     * Default constructor.
+     *
+     * @param meta
+     * @param token
+     */
     public CommandToken(CommandMeta meta, String token) {
         this.meta = meta;
         this.value = token;
     }
 
+    /**
+     * Returns the command metadata.
+     * @return the associated command metatdata
+     */
     public CommandMeta getMeta() {
         return meta;
     }
     
+    /**
+     * Returns that command form the user input. 
+     * @return the user input command
+     */
     public String getValue() {
         return value;
     }

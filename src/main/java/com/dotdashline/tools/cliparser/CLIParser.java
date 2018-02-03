@@ -15,12 +15,15 @@ package com.dotdashline.tools.cliparser;
 public interface CLIParser {
 
     /**
-     * This is the main entry point for parser the user input.
-     * 
-     * @param tokens user input in String array
-     * @return an instant of the matched annotated class which matches the input command 
-     * @throws CLIParserException if there are any obstacles
+     * This is the main entry point for parsing the user input.
+     *
+     * @param tokens,
+     *            a series of tokens inputed by user
+     * @return an instant of one of the {@link CLICommandTag} annotated classes
+     *         that matches the first token of the user input.
+     * @throws CLIParserException
+     *             if there were any errors happened during paring the input
+     *             tokens
      */
     Object parse(String... tokens) throws CLIParserException;
-    
 }

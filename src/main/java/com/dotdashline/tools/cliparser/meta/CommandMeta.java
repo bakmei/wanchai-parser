@@ -15,7 +15,7 @@ import com.dotdashline.tools.cliparser.tag.CLIParamTag;
 import com.dotdashline.tools.cliparser.utils.ReflectionUtil;
 
 /**
- * This class models the meta data for the command class.
+ * This class models the metadata for the command class.
  *
  * @author Raymond Tsang
  * @author Steven Liang
@@ -51,43 +51,41 @@ public class CommandMeta {
         return parameters;
     }
 
+    public String getName() {
+        return getCommandTag().value();
+    }
+
+    public Object getDescription() {
+        return getCommandTag().desc();
+    }
+
     public OptionMeta findOption(String token) {
         for (OptionMeta meta : options) {
             if (meta.isMatch(token)) {
-               return meta; 
+                return meta;
             }
         }
         return null;
     }
 
     /**
-     * Add the {@link ParameterTag} annotated fields.
+     * Add the {@link CLIParamTag} annotated fields.
      */
     private void addParameters(Class<?> c) {
         // for each annotated fields, create the ParameterElement object.
-        ReflectionUtil.getAnnotatedFields(c, CLIParamTag.class).stream()
-                .forEach(x -> parameters.add(new ParamMeta(x)));
+        ReflectionUtil.getAnnotatedFields(c, CLIParamTag.class).stream().forEach(x -> parameters.add(new ParamMeta(x)));
     }
 
     /**
-     * Add the {@link OptionTag} annotated fields. 
+     * Add the {@link CLIOptionTag} annotated fields.
      */
     private void addOptions(Class<?> c) {
         // for each annotated fields, create the OptionElement object.
-        Arrays.asList ( c.getDeclaredFields () ).stream ()
-        .filter ( x1 -> x1.isAnnotationPresent ( CLIOptionTag.class ) ).collect ( Collectors.toList () ).stream()
-                .forEach(x -> options.add(new OptionMeta(x)));
-    }
-
-    public String getName() {
-        return getCommandTag().value();
+        Arrays.asList(c.getDeclaredFields()).stream().filter(x1 -> x1.isAnnotationPresent(CLIOptionTag.class))
+                .collect(Collectors.toList()).stream().forEach(x -> options.add(new OptionMeta(x)));
     }
 
     private CLICommandTag getCommandTag() {
         return getCommandClass().getAnnotation(CLICommandTag.class);
-    }
-
-    public Object getDescription() {
-        return getCommandTag().desc();
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import com.dotdashline.tools.cliparser.tag.CLIOptionTag;
 
 /**
+ * This class models the metadata for {@link CLIOptionTag} annotation class.
  *
  * @author Raymond Tsang
  * @author Steven Liang
@@ -19,10 +20,20 @@ import com.dotdashline.tools.cliparser.tag.CLIOptionTag;
  */
 public class OptionMeta {
 
+    // a field which is annotated by {@link CLIOptionTag}
     private Field field;
+
+    // the details of the option
     private CLIOptionTag annotation;
+
+    // a list of option prefixes
     private List<String> prefixes;
 
+    /**
+     * Default constructor.
+     *
+     * @param field a field
+     */
     public OptionMeta(Field field) {
         if (field == null) {
             throw new IllegalArgumentException("The input field is missing.");
@@ -34,14 +45,29 @@ public class OptionMeta {
         this.field = field;
     }
 
+    /**
+     * Returns the {@link CLIOptionTag} field.
+     *
+     * @return the annotated field
+     */
     public Field getField() {
         return field;
     }
 
+    /**
+     * Returns the description of this option.
+     *
+     * @return a description
+     */
     public String getDescription() {
         return annotation.desc();
     }
 
+    /**
+     * Returns the option separator (Inclusive mode only).
+     *
+     * @return a separator character
+     */
     public char getSeparator() {
         return annotation.separator();
     }
@@ -58,25 +84,44 @@ public class OptionMeta {
         return annotation.exclusive();
     }
 
+    /**
+     * Returns true if the field is an array.
+     *
+     * @return a flag indicates that the field is an array or not
+     */
     public boolean isArray() {
         return field == null ? false : field.getType().isArray();
     }
 
+    /**
+     * Returns true if the given token is match with this option.
+     *
+     * @param token
+     *            a token from user input
+     * @return a flag indicates that the token is matched or not
+     */
     public boolean isMatch(String token) {
         if (token == null) {
             return false;
         }
-        
-        // if it is exclusive, then the token has to match with the option name.  e.g. --<option name>
+
+        // exclusive, then the token has to match with the option name. e.g.
+        // --<option name>
         if (isExclusive()) {
             return containsPrefix(token);
         }
 
-        // if it is inclusive, the token has to contain two values separated by the separator
+        // inclusive, the token has to contain two values separated by the
+        // separator
         String[] keyValuePair = token.split(String.valueOf(getSeparator()));
         return keyValuePair != null && keyValuePair.length > 0 && containsPrefix(keyValuePair[0]);
     }
 
+    /**
+     * Returns a list of option prefixes.
+     *
+     * @return a list of prefixes
+     */
     public List<String> getPrefixes() {
         if (prefixes == null) {
             prefixes = Arrays.asList(annotation.value());

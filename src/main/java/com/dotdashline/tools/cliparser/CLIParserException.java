@@ -4,11 +4,13 @@
  */
 package com.dotdashline.tools.cliparser;
 
+import java.util.Optional;
+
 import com.dotdashline.tools.cliparser.token.TokenModel;
 
 /**
- * This exception represents any errors that occurred within the CLI parser
- * implementation.
+ * This exception class represents any errors that occurred during the parsing
+ * process.
  *
  * @author Raymond Tsang
  * @author Steven Liang
@@ -19,13 +21,9 @@ import com.dotdashline.tools.cliparser.token.TokenModel;
 @SuppressWarnings("serial")
 public class CLIParserException extends Exception {
 
-    private ErrorCode errorCode;
     private String[] userInput;
-    private TokenModel tokenModel;
-
-    public TokenModel getTokenModel() {
-        return tokenModel;
-    }
+    private Optional<ErrorCode> errorCode = Optional.empty();
+    private Optional<TokenModel> tokenModel = Optional.empty();
 
     public CLIParserException() {
         super();
@@ -33,7 +31,7 @@ public class CLIParserException extends Exception {
 
     public CLIParserException(ErrorCode errorCode) {
         super();
-        this.errorCode = errorCode;
+        this.errorCode = Optional.of(errorCode);
     }
 
     public CLIParserException(String msg) {
@@ -42,7 +40,7 @@ public class CLIParserException extends Exception {
 
     public CLIParserException(String msg, ErrorCode errorCode) {
         super(msg);
-        this.errorCode = errorCode;
+        this.errorCode = Optional.of(errorCode);
     }
 
     public CLIParserException(String msg, Throwable arg1) {
@@ -50,12 +48,17 @@ public class CLIParserException extends Exception {
     }
 
     public CLIParserException(ErrorCode errorCode, String[] userInput) {
-        this.errorCode = errorCode;
+        this.errorCode = Optional.of(errorCode);
         this.userInput = userInput;
     }
 
     public ErrorCode getErrorCode() {
-        return errorCode;
+        return errorCode.orElse(ErrorCode.NOT_AVAILABLE);
+
+    }
+
+    public TokenModel getTokenModel() {
+        return tokenModel.orElse(null);
     }
 
     public String[] getUserInput() {
