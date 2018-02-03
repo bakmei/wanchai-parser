@@ -21,10 +21,11 @@ import com.dotdashline.tools.cliparser.utils.ReflectionUtil;
 import com.dotdashline.tools.cliparser.utils.TokenParsingUtil;
 
 /**
- * This is the default implementation of the CLIParser interface. The goal of
- * this class is to parse the command tokens into {@link MetaModel}. First, it
- * creates the CommandModel from the annotated classes, and second, it populates
- * the options and parameters into the return object based on the CommandModel.
+ * This abstract class provides the basic implementation of the interface
+ * {@link CLIParser}. The goal of this class is to parse the command tokens into
+ * {@link MetaModel}. First, it creates the CommandModel from the annotated
+ * classes, and second, it populates the options and parameters into the return
+ * object based on the CommandModel.
  *
  * @author Raymond Tsang
  * @author Steven Liang
@@ -42,10 +43,11 @@ public abstract class AbstractCLIParser implements CLIParser {
      * Construct the parser with a collection of annotated Command classes. It
      * will ignore the element if it is not annotated as expected.
      * 
-     * @param taggedClasses
+     * @param annotatedClasses
+     * @throws CLIParserException
      */
-    public AbstractCLIParser(Class<?>... cmdClasses) {
-        metaModel = MetaModelFactory.createModel(cmdClasses);
+    public AbstractCLIParser(Class<?>... annotatedClasses) throws CLIParserException {
+        metaModel = MetaModelFactory.createModel(annotatedClasses);
     }
 
     /**

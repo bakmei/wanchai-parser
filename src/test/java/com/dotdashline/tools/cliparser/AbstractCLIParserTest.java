@@ -47,7 +47,7 @@ public class AbstractCLIParserTest {
     }
 
     class TestParser extends AbstractCLIParser implements CLIParser {
-        public TestParser(Class<?>... classes) {
+        public TestParser(Class<?>... classes) throws CLIParserException {
             super(classes);
         }
 

@@ -27,15 +27,14 @@ public class DefaultCLIParser extends AbstractCLIParser implements CLIParser {
     public static final String CMD_HELP_TOKEN = "help";
 
     /**
-     * This overridden constructor includes the default implementation for the
-     * HelpCommand.
+     * This overridden constructor passes the default implementation of the
+     * {@link DefaultHelpCommand} to the super.
      * 
-     * @param taggedClasses
+     * @param annotatedClasses
+     * @throws CLIParserException
      */
-    public DefaultCLIParser(Class<?>... cmdClasses) {
-        // The DefaultCommand will be used when the first token doesn't matched
-        // with any of the commands.
-        super(CollectionUtil.concat(cmdClasses, new Class<?>[] { DefaultHelpCommand.class }));
+    public DefaultCLIParser(Class<?>... annotatedClasses) throws CLIParserException {
+        super(CollectionUtil.concat(annotatedClasses, new Class<?>[] { DefaultHelpCommand.class }));
     }
 
     /**
@@ -91,7 +90,7 @@ public class DefaultCLIParser extends AbstractCLIParser implements CLIParser {
      * @param e
      */
     private void handleInvalidCommand(CLIParserException e) {
-        String userCmd = e.getUserInput() == null ? "" : (e.getUserInput().length == 0 ? "" :  e.getUserInput()[0]);
+        String userCmd = e.getUserInput() == null ? "" : (e.getUserInput().length == 0 ? "" : e.getUserInput()[0]);
         HelpUtil.showToConsole("'%s' is not a valid command.", userCmd);
         HelpUtil.showAllCommands(this.metaModel);
     }

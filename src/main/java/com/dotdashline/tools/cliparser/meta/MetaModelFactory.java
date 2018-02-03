@@ -9,6 +9,7 @@ import java.util.Arrays;
 import com.dotdashline.tools.cliparser.tag.CLICommandTag;
 
 /**
+ * A factory class for {@link MetaModel} instantiation.
  *
  * @author Raymond Tsang
  * @author Steven Liang
@@ -23,8 +24,8 @@ public class MetaModelFactory {
     /**
      * Create the Command model with a collection of annotated classes.
      *
-     * @param classes
-     * @return
+     * @param classes an array of classes
+     * @return a metadata model
      */
     public static MetaModel createModel(Class<?>... classes) {
         MetaModel model = new MetaModel();

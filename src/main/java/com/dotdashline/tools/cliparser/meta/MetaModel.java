@@ -4,11 +4,11 @@
  */
 package com.dotdashline.tools.cliparser.meta;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,20 +33,35 @@ public class MetaModel {
      * @param c
      */
     public void addCommand(Class<?> c) {
-        Annotation anno = c.getAnnotation(CLICommandTag.class);
-        if (anno != null) {
-            commands.put(c.getAnnotation(CLICommandTag.class).value(), new CommandMeta(c));
-        }
+        Optional.ofNullable(c.getAnnotation(CLICommandTag.class))
+                .ifPresent(x -> commands.put(x.value(), new CommandMeta(c)));
     }
 
+    /**
+     * Returns the metadata for the given command.
+     *
+     * @param cmd a command token
+     * @return an object which contains the metadata
+     * @throws CLIParserException
+     */
     public CommandMeta getCommand(String cmd) throws CLIParserException {
         return commands.get(cmd);
     }
 
+    /**
+     * Returns all the classes which are {@link CLICommandTag} annotated.
+     *
+     * @return a set of class object
+     */
     public Set<Class<?>> getAllCommandClasses() {
         return commands.values().stream().map(x -> x.getCommandClass()).collect(Collectors.toSet());
     }
 
+    /**
+     * Returns the metadata of the all the classes which are {@link CLICommandTag} annotated. 
+     *
+     * @return
+     */
     public List<CommandMeta> getAllCommandMetas() {
         return new ArrayList<>(commands.values());
     }

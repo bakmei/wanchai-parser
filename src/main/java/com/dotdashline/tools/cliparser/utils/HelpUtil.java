@@ -11,6 +11,13 @@ import com.dotdashline.tools.cliparser.meta.MetaModel;
 import com.dotdashline.tools.cliparser.meta.OptionMeta;
 import com.dotdashline.tools.cliparser.meta.ParamMeta;
 
+/**
+*
+* @author Raymond Tsang
+* @author Steven Liang
+*
+* @since 0.1
+*/
 public class HelpUtil {
 
     public static String getHelp(List<CommandMeta> cmdMetas) {
