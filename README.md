@@ -15,6 +15,7 @@ CLIParser parser = new DefaultCLIParser(new String[] { this.getClass().getPackag
 ```
 ##### Parse input from command line
 ```
+// should test the instance if there are more than one class
 WordCommand obj = (WordCommand) parser.parse("SHOWME --reverse=true you are How".split(" "));
 ```
 ##### Verify the result
