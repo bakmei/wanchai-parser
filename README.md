@@ -5,24 +5,25 @@ A light weight and easy to use command line parser library for Java developers.
 
 ### Reverse a sentense.
 
-##### Get a handle of the parser
+##### Get a handle of the parser by giving a collection of annotated classes.
 ```
-CLIParser parser = new DefaultCLIParser( this.getClass() );
+CLIParser parser = new DefaultCLIParser( MyAnnotatedClass.class );
 ```
-##### or
+##### or by a collection of packages that contains the annotated classes.
 ```
 CLIParser parser = new DefaultCLIParser(new String[] { this.getClass().getPackage().getName() });
 ```
-##### Parse input from command line
+##### Parse user input from command line
 ```
 // should test the instance if there are more than one class
-WordCommand obj = (WordCommand) parser.parse("SHOWME --reverse=true you are How".split(" "));
+Object obj = parser.parse("SHOWME --reverse=true you are How".split(" "));
 ```
 ##### Verify the result
 ```
-Assert.assertEquals("How are you", obj.execute());
+if (obj instanceof MyAnnotatedClass)
+   Assert.assertEquals("How are you", ((MyAnnotatedClass) obj).execute());
 ```
-##### Define how the command works
+##### Define the command by annotations
 ```
 @CLICommandTag("SHOWME")
 public class WordCommand {
@@ -37,7 +38,6 @@ public class WordCommand {
      if (isReverse) {
         return reverse(wordds);
      }
-     ...
   }
 }
 ```
