@@ -26,6 +26,6 @@ public class DefaultCLIParserTest {
 
     @Test
     public void test_missing_cmd() throws CLIParserException {
-        Assert.assertEquals(null, parser.parse(new String[] { "undefined" }));
+        Assert.assertNull(parser.parse(new String[] { "undefined" }));
     }
 }

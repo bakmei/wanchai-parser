@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,12 +42,24 @@ public class MetaModel {
     /**
      * Returns the metadata for the given command.
      *
-     * @param cmd a command token
+     * @param cmd
+     *            a command token
      * @return an object which contains the metadata
      * @throws CLIParserException
      */
     public CommandMeta getCommand(String cmd) throws CLIParserException {
         return commands.get(cmd);
+    }
+
+    public CommandMeta getCommandByRegex(String token) {
+        for (Entry<String, CommandMeta> e : commands.entrySet()) {
+            CommandMeta meta = e.getValue();
+            if (meta.getRegex() != null && meta.getRegex().equals("")
+                    && Pattern.matches(e.getValue().getRegex(), token)) {
+                return meta;
+            }
+        }
+        return null;
     }
 
     /**
@@ -58,11 +72,13 @@ public class MetaModel {
     }
 
     /**
-     * Returns the metadata of the all the classes which are {@link CLICommandTag} annotated. 
+     * Returns the metadata of the all the classes which are
+     * {@link CLICommandTag} annotated.
      *
      * @return
      */
     public List<CommandMeta> getAllCommandMetas() {
         return new ArrayList<>(commands.values());
     }
+
 }

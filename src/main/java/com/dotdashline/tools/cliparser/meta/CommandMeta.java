@@ -88,4 +88,8 @@ public class CommandMeta {
     private CLICommandTag getCommandTag() {
         return getCommandClass().getAnnotation(CLICommandTag.class);
     }
+
+    public String getRegex() {
+        return getCommandTag().regex();
+    }
 }

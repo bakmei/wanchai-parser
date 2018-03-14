@@ -17,9 +17,11 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CLICommandTag {
 
-    // the name of the command to be used in matching with the input.
-    // if this value is an empty string, then the regex will be used if defined.
+    // this value will be used during the first round matching (exact).
 	String value();
 
 	String desc() default "<name of this description>";
+
+	// this value will be used during the second round matching (regex).
+    String regex() default "";
 }

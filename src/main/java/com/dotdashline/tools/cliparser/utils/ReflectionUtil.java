@@ -172,11 +172,13 @@ public class ReflectionUtil {
 
         StringBuilder ret = new StringBuilder();
 
-        ret.append(getIndentString(indent)).append("[ ").append(obj.getClass().getSimpleName()).append(" ]").append(newLine);
+        ret.append(getIndentString(indent)).append("[ ").append(obj.getClass().getSimpleName()).append(" ]")
+                .append(newLine);
 
         final int childIndent = indent + 1;
         Arrays.asList(obj.getClass().getDeclaredFields()).stream().forEach(x -> {
-            ret.append(getIndentString(childIndent)).append(x.getName()).append(" (").append(x.getType().getSimpleName()).append(") -> ");
+            ret.append(getIndentString(childIndent)).append(x.getName()).append(" (")
+                    .append(x.getType().getSimpleName()).append(") -> ");
             Object childObj = null;
             boolean isAccessible = x.isAccessible();
             if (!isAccessible) {

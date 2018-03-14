@@ -75,7 +75,10 @@ public class TokenModel {
         String token = null;
         if (tokens.isEmpty() || (token = tokens.poll()) == null
                 || (commandMeta = metaModel.getCommand(token)) == null) {
-            throw new CLIParserException(ErrorCode.INVALID_COMMAND, new String[] { token });
+            // try regex
+            if ((commandMeta = metaModel.getCommandByRegex(token)) == null) {
+                throw new CLIParserException(ErrorCode.INVALID_COMMAND, new String[] { token });
+            }
         }
         commandToken = new CommandToken(commandMeta, token);
     }
