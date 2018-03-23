@@ -13,15 +13,15 @@ import java.lang.annotation.RetentionPolicy;
  * @author Steven Liang
  *
  * @since 0.1
-*/
+ */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CLICommandTag {
 
-    // this value will be used during the first round matching (exact).
-	String value();
+   // this value will be used during the first round matching (exact).
+   String value();
 
-	String desc() default "<name of this description>";
+   String desc() default "<name of this description>";
 
-	// this value will be used during the second round matching (regex).
-    String regex() default "";
+   // this value will be used during the second round matching (regex).
+   String regex() default "";
 }

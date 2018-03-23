@@ -13,22 +13,24 @@ import java.lang.annotation.RetentionPolicy;
  * @author Steven Liang
  *
  * @since 0.1
-*/
+ */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CLIParamTag {
 
-    String value() default "<name of this param>";
-    
-    /**
-     * Description of the parameter.  This field will be used when generating the help message.
-     *
-     * @return
-     */
-    String desc() default "<name of this description>";
+   String value() default "<name of this param>";
 
-    /**
-     * The recommended range is -1.0 to 1.0
-     * @return
-     */
-    double weight() default 0.0f;
+   /**
+    * Description of the parameter. This field will be used when generating the
+    * help message.
+    *
+    * @return
+    */
+   String desc() default "<name of this description>";
+
+   /**
+    * The recommended range is -1.0 to 1.0
+    * 
+    * @return
+    */
+   double weight() default 0.0f;
 }

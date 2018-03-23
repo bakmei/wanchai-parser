@@ -36,81 +36,88 @@ import com.dotdashline.tools.cliparser.utils.TokenParsingUtil;
  */
 public class TokenModel {
 
-    private MetaModel metaModel;
-    private String[] tokens;
+   private MetaModel metaModel;
+   private String[] tokens;
 
-    private CommandToken commandToken;
-    private List<OptionToken> optionTokens = new ArrayList<>();
-    private List<ParamToken> paramTokens = new ArrayList<>();
+   private CommandToken commandToken;
+   private List<OptionToken> optionTokens = new ArrayList<>();
+   private List<ParamToken> paramTokens = new ArrayList<>();
 
-    TokenModel(MetaModel metaModel, String[] tokens) throws CLIParserException {
-        this.metaModel = metaModel;
-        if (tokens == null || tokens.length == 0) {
-            throw new CLIParserException(ErrorCode.NO_INPUT);
-        }
-        this.tokens = tokens;
-        init(CollectionUtil.arrayToQueue(this.tokens));
-    }
+   TokenModel(MetaModel metaModel, String[] tokens) throws CLIParserException {
+      this.metaModel = metaModel;
+      if (tokens == null || tokens.length == 0) {
+         throw new CLIParserException(ErrorCode.NO_INPUT);
+      }
+      this.tokens = tokens;
+      init(CollectionUtil.arrayToQueue(this.tokens));
+   }
 
-    public CommandToken getCommandToken() {
-        return commandToken;
-    }
+   public CommandToken getCommandToken() {
+      return commandToken;
+   }
 
-    public List<OptionToken> getOptionTokens() {
-        return optionTokens;
-    }
+   public List<OptionToken> getOptionTokens() {
+      return optionTokens;
+   }
 
-    public List<ParamToken> getParamTokens() {
-        return paramTokens;
-    }
+   public List<ParamToken> getParamTokens() {
+      return paramTokens;
+   }
 
-    private void init(Queue<String> tokens) throws CLIParserException {
-        createCommandToken(tokens);
-        createOptionTokens(commandToken, tokens);
-        createParamTokens(commandToken, tokens);
-    }
+   @Override
+   public String toString() {
+      return new StringBuilder().append(String.format("metaModel: %s", metaModel.toString()))
+            .append(String.format("tokens: %s%n", tokens)).append(String.format("commandToken: %s%n", commandToken))
+            .append(String.format("optionTokens: %s%n", optionTokens))
+            .append(String.format("paramTokens: %s%n", paramTokens)).toString();
+   }
 
-    private void createCommandToken(Queue<String> tokens) throws CLIParserException {
-        CommandMeta commandMeta;
-        String token = null;
-        if (tokens.isEmpty() || (token = tokens.poll()) == null
-                || (commandMeta = metaModel.getCommand(token)) == null) {
-            // try regex
-            if ((commandMeta = metaModel.getCommandByRegex(token)) == null) {
-                throw new CLIParserException(ErrorCode.INVALID_COMMAND, new String[] { token });
-            }
-        }
-        commandToken = new CommandToken(commandMeta, token);
-    }
+   private void init(Queue<String> tokens) throws CLIParserException {
+      createCommandToken(tokens);
+      createOptionTokens(commandToken, tokens);
+      createParamTokens(commandToken, tokens);
+   }
 
-    private void createOptionTokens(CommandToken commandToken, Queue<String> tokens) {
-        Map<OptionMeta, List<String>> output = new HashMap<>();
-        TokenParsingUtil.parseOptionTokens(tokens, commandToken.getMeta(), output);
-        output.entrySet().stream().forEach(e -> optionTokens.add(new OptionToken(e.getKey(), e.getValue())));
-    }
+   private void createCommandToken(Queue<String> tokens) throws CLIParserException {
+      CommandMeta commandMeta;
+      String token = null;
+      if (tokens.isEmpty() || (token = tokens.poll()) == null || (commandMeta = metaModel.getCommand(token)) == null) {
+         // try regex
+         if ((commandMeta = metaModel.getCommandByRegex(token)) == null) {
+            throw new CLIParserException(ErrorCode.INVALID_COMMAND, new String[] { token });
+         }
+      }
+      commandToken = new CommandToken(commandMeta, token);
+   }
 
-    /**
-     * Associates the ParamMeta and transfer the rest of the elements from the
-     * queue into a list.
-     *
-     * @param tokens
-     */
-    private void createParamTokens(CommandToken commandToken, Queue<String> tokens) {
-        List<ParamMeta> paramMeta = commandToken.getMeta().getParamMeta();
-        if (tokens == null || tokens.isEmpty() || paramMeta == null || paramMeta.isEmpty()) {
-            return;
-        }
+   private void createOptionTokens(CommandToken commandToken, Queue<String> tokens) {
+      Map<OptionMeta, List<String>> output = new HashMap<>();
+      TokenParsingUtil.parseOptionTokens(tokens, commandToken.getMeta(), output);
+      output.entrySet().stream().forEach(e -> optionTokens.add(new OptionToken(e.getKey(), e.getValue())));
+   }
 
-        // The paramMeta list is ordered by the sequence field.
-        // For each param meta, match with the tokens in the queue.
-        // If the param type is an array, assign the rest of the tokens to the
-        // field.
-        paramMeta.stream().filter(x -> !tokens.isEmpty()).forEach(x -> {
-            if (x.isArray()) {
-                paramTokens.add(new ParamToken(x, CollectionUtil.queueToList(tokens)));
-            } else {
-                paramTokens.add(new ParamToken(x, Arrays.asList(tokens.poll())));
-            }
-        });
-    }
+   /**
+    * Associates the ParamMeta and transfer the rest of the elements from the
+    * queue into a list.
+    *
+    * @param tokens
+    */
+   private void createParamTokens(CommandToken commandToken, Queue<String> tokens) {
+      List<ParamMeta> paramMeta = commandToken.getMeta().getParamMeta();
+      if (tokens == null || tokens.isEmpty() || paramMeta == null || paramMeta.isEmpty()) {
+         return;
+      }
+
+      // The paramMeta list is ordered by the sequence field.
+      // For each param meta, match with the tokens in the queue.
+      // If the param type is an array, assign the rest of the tokens to the
+      // field.
+      paramMeta.stream().filter(x -> !tokens.isEmpty()).forEach(x -> {
+         if (x.isArray()) {
+            paramTokens.add(new ParamToken(x, CollectionUtil.queueToList(tokens)));
+         } else {
+            paramTokens.add(new ParamToken(x, Arrays.asList(tokens.poll())));
+         }
+      });
+   }
 }

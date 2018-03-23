@@ -18,19 +18,20 @@ import com.dotdashline.tools.cliparser.tag.CLICommandTag;
  */
 public class MetaModelFactory {
 
-    private MetaModelFactory() {
-    }
+   private MetaModelFactory() {
+   }
 
-    /**
-     * Create the Command model with a collection of annotated classes.
-     *
-     * @param classes an array of classes
-     * @return a metadata model
-     */
-    public static MetaModel createModel(Class<?>... classes) {
-        MetaModel model = new MetaModel();
-        Arrays.asList(classes).stream().filter(x -> x.isAnnotationPresent(CLICommandTag.class))
-                .forEach(c -> model.addCommand(c));
-        return model;
-    }
+   /**
+    * Create the Command model with a collection of annotated classes.
+    *
+    * @param classes
+    *           an array of classes
+    * @return a metadata model
+    */
+   public static MetaModel createModel(Class<?>... classes) {
+      MetaModel model = new MetaModel();
+      Arrays.asList(classes).stream().filter(x -> x.isAnnotationPresent(CLICommandTag.class))
+            .forEach(c -> model.addCommand(c));
+      return model;
+   }
 }

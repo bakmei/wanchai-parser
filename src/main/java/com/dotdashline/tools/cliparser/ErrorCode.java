@@ -19,7 +19,7 @@ public enum ErrorCode {
                                          // probably undefined.
    INVALID_PARAM(3, "Invalid parameter"), // The input parameter was invalid.
    NO_INPUT(4, "No user input."), // No user input.
-   NOT_AVAILABLE(999, "N/A");
+   INTERNAL_ERROR(500, "Internal error."), NOT_AVAILABLE(999, "N/A");
 
    private final int levelCode;
    private final String message;

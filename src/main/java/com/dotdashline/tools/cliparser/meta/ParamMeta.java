@@ -18,73 +18,81 @@ import com.dotdashline.tools.cliparser.tag.CLIParamTag;
  */
 public class ParamMeta implements Comparable<ParamMeta> {
 
-    // the field which is annotated by {@link CLIParamTag}
-    private Field field;
+   // the field which is annotated by {@link CLIParamTag}
+   private Field field;
 
-    // the details of the annotation
-    private CLIParamTag annotation;
+   // the details of the annotation
+   private CLIParamTag annotation;
 
-    /**
-     * Default constructor.
-     *
-     * @param field a class field annotated by {@link CLIParamTag}
-     */
-    public ParamMeta(Field field) {
-        if (field == null) {
-            throw new IllegalArgumentException("The input field is missing.");
-        }
-        annotation = field.getAnnotation(CLIParamTag.class);
-        if (annotation == null) {
-            throw new IllegalArgumentException("The input is not tagged with CLIParamTag");
-        }
-        this.field = field;
-    }
+   /**
+    * Default constructor.
+    *
+    * @param field
+    *           a class field annotated by {@link CLIParamTag}
+    */
+   public ParamMeta(Field field) {
+      if (field == null) {
+         throw new IllegalArgumentException("The input field is missing.");
+      }
+      annotation = field.getAnnotation(CLIParamTag.class);
+      if (annotation == null) {
+         throw new IllegalArgumentException("The input is not tagged with CLIParamTag");
+      }
+      this.field = field;
+   }
 
-    /**
-     * Returns the annotated field.
-     *
-     * @return a class field
-     */
-    public Field getField() {
-        return field;
-    }
+   /**
+    * Returns the annotated field.
+    *
+    * @return a class field
+    */
+   public Field getField() {
+      return field;
+   }
 
-    /**
-     * Returns the description of the parameter.
-     *
-     * @return a description
-     */
-    public String getDescription() {
-        return annotation == null ? "" : annotation.desc();
-    }
+   /**
+    * Returns the description of the parameter.
+    *
+    * @return a description
+    */
+   public String getDescription() {
+      return annotation == null ? "" : annotation.desc();
+   }
 
-    /**
-     * Returns the weight of the parameter.
-     *
-     * @return a weight
-     */
-    public double getWeight() {
-        return annotation == null ? 1.0d : annotation.weight();
-    }
+   /**
+    * Returns the weight of the parameter.
+    *
+    * @return a weight
+    */
+   public double getWeight() {
+      return annotation == null ? 1.0d : annotation.weight();
+   }
 
-    /**
-     * Returns the name of the parameter.
-     *
-     * @return a name
-     */
-    public String getName() {
-        return annotation == null ? "" : annotation.value();
-    }
+   /**
+    * Returns the name of the parameter.
+    *
+    * @return a name
+    */
+   public String getName() {
+      return annotation == null ? "" : annotation.value();
+   }
 
-    public boolean isArray() {
-        return field == null ? false : field.getType().isArray();
-    }
+   public boolean isArray() {
+      return field == null ? false : field.getType().isArray();
+   }
 
-    /**
-     * For sorting purpose.
-     */
-    @Override
-    public int compareTo(ParamMeta o) {
-        return o == null ? -1 : (this.getWeight() > o.getWeight() ? 1 : -1);
-    }
+   /**
+    * For sorting purpose.
+    */
+   @Override
+   public int compareTo(ParamMeta o) {
+      return o == null ? -1 : (this.getWeight() > o.getWeight() ? 1 : -1);
+   }
+
+   @Override
+   public String toString() {
+      return new StringBuilder().append(String.format("field: %s%n", field.toString()))
+            .append(String.format("annotation: %s%n", annotation)).toString();
+   }
+
 }

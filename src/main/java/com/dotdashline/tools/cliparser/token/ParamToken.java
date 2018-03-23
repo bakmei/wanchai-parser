@@ -18,20 +18,26 @@ import com.dotdashline.tools.cliparser.meta.ParamMeta;
  */
 public class ParamToken {
 
-    private ParamMeta meta;
+   private ParamMeta meta;
 
-    private List<String> tokens;
+   private List<String> tokens;
 
-    public ParamToken(ParamMeta meta, List<String> tokens) {
-        this.meta = meta;
-        this.tokens = tokens;
-    }
+   public ParamToken(ParamMeta meta, List<String> tokens) {
+      this.meta = meta;
+      this.tokens = tokens;
+   }
 
-    public ParamMeta getMeta() {
-        return meta;
-    }
+   public ParamMeta getMeta() {
+      return meta;
+   }
 
-    public List<String> getTokens() {
-        return tokens;
-    }
+   public List<String> getTokens() {
+      return tokens;
+   }
+
+   @Override
+   public String toString() {
+      return new StringBuilder().append(String.format("meta: %s", meta.toString()))
+            .append(String.format("tokens: %s%n", tokens)).toString();
+   }
 }
