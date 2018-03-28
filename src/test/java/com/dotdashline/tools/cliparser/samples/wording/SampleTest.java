@@ -14,23 +14,24 @@ import com.dotdashline.tools.cliparser.DefaultCLIParser;
  */
 public class SampleTest {
 
-    private CLIParser parser;
+   private CLIParser parser;
 
-    @Before
-    public void setup() throws CLIParserException {
-        parser = new DefaultCLIParser(new String[] { this.getClass().getPackage().getName() });
-    }
+   @Before
+   public void setup() throws CLIParserException {
+      parser = new DefaultCLIParser(new String[] { this.getClass().getPackage().getName() });
+   }
 
-    @Test
-    public void test_word_fun() throws CLIParserException {
-        WordCommand obj = (WordCommand) parser.parse("SHOWME How are you".split(" "));
-        Assert.assertNotNull(obj);
-        Assert.assertEquals("How are you", obj.execute());
-    }
+   @Test
+   public void test_word_fun() throws CLIParserException {
+      WordCommand obj = (WordCommand) parser.parse("SHOW_ME How are you".split(" "));
+      Assert.assertNotNull(obj);
+      Assert.assertEquals("How are you", obj.execute());
+   }
 
-    @Test
-    public void test_word_fun_reverse() throws CLIParserException {
-        WordCommand obj = (WordCommand) parser.parse("SHOWME --reverse=true you are How".split(" "));
-        Assert.assertEquals("How are you", obj.execute());
-    }
+   @Test
+   public void test_word_fun_reverse() throws CLIParserException {
+      WordCommand obj = (WordCommand) parser.parse("SHOW_ME --reverse=true you are How".split(" "));
+      Assert.assertEquals("How are you", obj.execute());
+   }
+
 }

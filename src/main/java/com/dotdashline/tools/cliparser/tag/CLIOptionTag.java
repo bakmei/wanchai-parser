@@ -29,21 +29,31 @@ public @interface CLIOptionTag {
    String desc() default "<name of this description>";
 
    /**
-    * Default will be set to 'false', non-exclusive (inclusive).
-    *
-    * The default separator for inclusive option is '=', this can be set by the
-    * separater character.
-    *
-    * i.e options are passed in the following format: <key>=<value> e.g.
-    * --sort=3 or -sort=3 e.g. --reverse=true or --reverse or -reverse
+    * Default is inclusive. i.e. false.
     * 
-    * Rather, if the flag is set to true, then the option should present in the
-    * following format:
-    *
-    * <key><space><value> e.g. "--sort 3" or -sort 3 e.g. "--reverse true" or
-    * "--reverse" or "-reverse true" or "-reverse"
+    * Definition of Inclusive/Exclusive:
     * 
-    * @return
+    * Inclusive option format: <key>=<value>
+    * 
+    * Inclusive option refers to both option header and the option value are
+    * expressed in one token.
+    * 
+    * e.g. --host=localhost where the "--host" is the option header and the
+    * "localhost" part is the option value.
+    * 
+    * e.g. --reverse=true or --reverse are special boolean field which the value
+    * can be neglected.
+    * 
+    * Exclusive option format: <key> <value> pairs
+    * 
+    * Exclusive option refers to the option header and the option value are
+    * expressed separately.
+    * 
+    * e.g. --host localhost.
+    * 
+    * The option header and the option value are separated by a space.
+    *
+    * @return true if the exclusive format is preferred, otherwise, false for inclusive. 
     */
    boolean exclusive() default false;
 
@@ -55,5 +65,4 @@ public @interface CLIOptionTag {
     */
    char separator() default '=';
 
-   String regex() default "";
 }

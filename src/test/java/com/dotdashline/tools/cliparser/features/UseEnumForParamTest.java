@@ -9,48 +9,48 @@ import com.dotdashline.tools.cliparser.DefaultCLIParser;
 import com.dotdashline.tools.cliparser.tag.CLICommandTag;
 import com.dotdashline.tools.cliparser.tag.CLIOptionTag;
 
-public class NoStringConstructorTest {
+public class UseEnumForParamTest {
 
    @Test
    public void test() throws CLIParserException {
       CLIParser parser = new DefaultCLIParser(MyCMDClass.class);
-      MyCMDClass obj = (MyCMDClass) parser.parse("CMD1 --symbol=AAPL".split(" "));
+      MyCMDClass obj = (MyCMDClass) parser.parse("CMD1 --dataType=OPEN".split(" "));
 
       Assert.assertNotNull(obj);
-      Assert.assertEquals("AAPL", obj.getSymbol().value());
+      Assert.assertEquals("OPEN", obj.getDataType().toString());
    }
 
    @CLICommandTag("CMD1")
    public static class MyCMDClass {
 
-      @CLIOptionTag(value = { "--symbol" })
-      private Symbol symbol;
+      @CLIOptionTag(value = { "--dataType" })
+      private DataType dataType;
 
-      public Symbol getSymbol() {
-         return symbol;
+      public DataType getDataType() {
+         return dataType;
       }
 
-      public static Symbol mapToSymbol(String s) {
-         return Symbol.valueOf(s);
+      public static DataType valueOf(String s) {
+         return DataType.valueOf(s);
       }
    }
 
    /**
     * Can only be instantiated by static method.
     */
-   public static class Symbol {
-      private String value;
+   public static enum DataType {
+      OPEN("OPEN"), HIGH("HIGH"), LOW("LOW"), CLOSE("CLOSE");
 
-      private Symbol(String v) {
-         this.value = v;
+      private String name;
+
+      DataType(String name) {
+         this.name = name;
       }
 
-      public static Symbol valueOf(String v) {
-         return new Symbol(v);
+      @Override
+      public String toString() {
+         return name;
       }
 
-      public String value() {
-         return value;
-      }
    }
 }
