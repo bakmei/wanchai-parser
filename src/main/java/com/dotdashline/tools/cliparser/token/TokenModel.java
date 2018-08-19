@@ -80,12 +80,12 @@ public class TokenModel {
 
    private void createCommandToken(Queue<String> tokens) throws CLIParserException {
       CommandMeta commandMeta;
-      String token = null;
-      if (tokens.isEmpty() || (token = tokens.poll()) == null || (commandMeta = metaModel.getCommand(token)) == null) {
-         // try regex
-         if ((commandMeta = metaModel.getCommandByRegex(token)) == null) {
-            throw new CLIParserException(ErrorCode.INVALID_COMMAND, new String[] { token });
-         }
+      if (tokens == null || tokens.isEmpty()) {
+            throw new CLIParserException(ErrorCode.NO_INPUT);
+      }
+      String token = tokens.poll();
+      if ((commandMeta = metaModel.getCommand(token)) == null) {
+          throw new CLIParserException(ErrorCode.INVALID_COMMAND);
       }
       commandToken = new CommandToken(commandMeta, token);
    }

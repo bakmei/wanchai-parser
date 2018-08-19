@@ -51,16 +51,6 @@ public class MetaModel {
       return commands.get(cmd);
    }
 
-   public CommandMeta getCommandByRegex(String token) {
-      for (Entry<String, CommandMeta> e : commands.entrySet()) {
-         CommandMeta meta = e.getValue();
-         if (meta.getRegex() != null && meta.getRegex().equals("") && Pattern.matches(e.getValue().getRegex(), token)) {
-            return meta;
-         }
-      }
-      return null;
-   }
-
    /**
     * Returns all the classes which are {@link CLICommandTag} annotated.
     *

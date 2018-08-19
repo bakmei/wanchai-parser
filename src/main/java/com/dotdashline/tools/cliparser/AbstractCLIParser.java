@@ -80,7 +80,7 @@ public abstract class AbstractCLIParser implements CLIParser {
       try {
          cmdObj = ReflectionUtil.createCommandObject(tokenModel.getCommandToken().getMeta().getCommandClass());
       } catch (InstantiationException | IllegalAccessException e) {
-         throw new CLIParserException("Failed to create the command object.", e);
+         throw new CLIParserException("Failed to create the command object.  Maybe missing a default constructor?", e);
       }
 
       // populate the user input into the command object

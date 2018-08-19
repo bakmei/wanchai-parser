@@ -18,8 +18,8 @@ public enum ErrorCode {
    INVALID_OPTION(2, "Invalid option."), // The input option was invalid,
                                          // probably undefined.
    INVALID_PARAM(3, "Invalid parameter"), // The input parameter was invalid.
-   NO_INPUT(4, "No user input."), // No user input.
-   INTERNAL_ERROR(500, "Internal error."), NOT_AVAILABLE(999, "N/A");
+   NO_INPUT(4, "No user input."),
+   INTERNAL_ERROR(500, "Internal error."); // No user input.
 
    private final int levelCode;
    private final String message;

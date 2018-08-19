@@ -89,10 +89,6 @@ public class CommandMeta {
       return getCommandClass().getAnnotation(CLICommandTag.class);
    }
 
-   public String getRegex() {
-      return getCommandTag().regex();
-   }
-
    @Override
    public String toString() {
       return new StringBuilder().append(String.format("commandClass: %s%n", commandClass.toString()))

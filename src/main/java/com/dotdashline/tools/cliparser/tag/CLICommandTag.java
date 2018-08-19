@@ -21,7 +21,4 @@ public @interface CLICommandTag {
    String value();
 
    String desc() default "<name of this description>";
-
-   // this value will be used during the second round matching (regex).
-   String regex() default "";
 }

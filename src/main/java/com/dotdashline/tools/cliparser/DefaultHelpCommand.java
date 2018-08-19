@@ -4,59 +4,79 @@
  */
 package com.dotdashline.tools.cliparser;
 
-import java.util.Set;
+import java.io.PrintStream;
+import java.util.List;
 
+import com.dotdashline.tools.cliparser.meta.CommandMeta;
 import com.dotdashline.tools.cliparser.meta.MetaModel;
 import com.dotdashline.tools.cliparser.tag.CLICommandTag;
+import com.dotdashline.tools.cliparser.tag.CLIOptionTag;
 import com.dotdashline.tools.cliparser.tag.CLIParamTag;
-import com.dotdashline.tools.cliparser.token.CommandToken;
+import com.dotdashline.tools.cliparser.token.TokenModel;
 
 /**
- * Implementation for providing help messages. {@see DefaultCLIParser}
+ * Leverage the token mechanism to print help messages.
  * 
- * Prints help messages when user input is "help" * or "help <command>"
+ * Prints help messages when the command is in the format of "help [command]"
  * 
  * @author Raymond Tsang
  * @author Steven Liang
  *
  * @since 0.1
  */
-@CLICommandTag(value = DefaultCLIParser.CMD_HELP_TOKEN, regex=".*", desc = "Display this help message.")
+@CLICommandTag(value = DefaultCLIParser.INTERNAL_CMD_HELP, desc = "Display this help message.")
 public class DefaultHelpCommand implements Runnable {
 
-    @CLIParamTag()
-    private MetaModel metaModel;
+	@CLIOptionTag(DefaultCLIParser.INTERNAL_OUTPUT_STREAM)
+	private PrintStream printStream;
 
-    private CommandToken commandToken;
-    
-    /**
-     * Am I abusing threading model?
-     */
-    @Override
-    public void run() {
-        if (commandToken != null) {
-            if (commandToken.getValue().equals(DefaultCLIParser.CMD_HELP_TOKEN)) {
-                printHelp(metaModel.getAllCommandClasses());
-            } else { 
-                printHelp(commandToken);
-            }
-        }
-        printBasicHelp();
-    }
+	@CLIOptionTag(DefaultCLIParser.INTERNAL_TOKEN_MODEL)
+	private MetaModel metaModel;
 
-    private void printBasicHelp() {
-        // TODO Auto-generated method stub
-        
-    }
+	@CLIOptionTag(DefaultCLIParser.INTERNAL_TOKEN_MODEL)
+	private TokenModel tokenModel;
 
-    private void printHelp(CommandToken commandToken2) {
-        // TODO Auto-generated method stub
-        
-    }
+	@CLIParamTag()
+	private String commandNeedHelp;
 
-    private void printHelp(Set<Class<?>> allCommandClasses) {
-        // TODO Auto-generated method stub
-        
-    }
+	@Override
+	public void run() {
+		// For the command of just "help"
+		if (commandNeedHelp == null || commandNeedHelp.equals("")) {
+			printMetaModel();
+		} else {
+			printTokenModel();
+		}
+	}
 
+	private void printMetaModel() {
+		List<CommandMeta> metas = metaModel.getAllCommandMetas();
+		if (metas != null) {
+			metas.stream().forEach(x -> printCommandMeta(x));
+		}
+	}
+
+	private void printCommandMeta(CommandMeta x) {
+		printString(x.getName() + " --> " + x.getDescription());
+	}
+
+	private void printString(String string) {
+		getPrintStream().print(string);
+	}
+
+	private PrintStream getPrintStream() {
+		if (printStream == null) {
+			printStream = System.out;
+		}
+		return printStream;
+	}
+
+	private void printTokenModel() {
+		if (tokenModel != null && tokenModel.getCommandToken() != null
+				&& tokenModel.getCommandToken().getMeta() != null) {
+			printCommandMeta(tokenModel.getCommandToken().getMeta());
+		} else {
+			printString("Unknown command.");
+		}
+	}
 }
