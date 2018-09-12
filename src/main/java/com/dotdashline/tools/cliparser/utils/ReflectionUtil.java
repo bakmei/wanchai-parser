@@ -90,7 +90,7 @@ public class ReflectionUtil {
                   try {
                      field.set(obj, m.invoke(null, value));
                   } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e2) {
-                     throw new CLIParserException("Failed to use static method for instantiating the field value.");
+                     throw new CLIParserException(String.format("Failed to invoke static method [%s] to instantiate the field [%s] ", m.getName(), field));
                   }
                } else {
                   throw new CLIParserException(String.format(

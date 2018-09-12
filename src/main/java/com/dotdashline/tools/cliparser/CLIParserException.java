@@ -73,6 +73,10 @@ public class CLIParserException extends Exception {
       return errorCode;
    }
 
+   public void setErrorCode(ErrorCode errCode) {
+      this.errorCode = errCode;
+   }
+
    public TokenModel getTokenModel() {
       return tokenModel;
    }
@@ -84,12 +88,19 @@ public class CLIParserException extends Exception {
    @Override
    public String toString() {
       StringBuilder ret = new StringBuilder();
-      ret.append(String.format("Error code: %s%n", errorCode));
+      if (errorCode != null) {
+         ret.append(String.format("Error code: %s%n", errorCode));
+      }
+      if (getMessage() != null) {
+         ret.append(String.format("Detail: %s%n", getMessage()));
+      }
       if (userInput != null) {
          ret.append(String.format("User Input: %s%n", userInput));
       }
       if (subLevelErrors != null) {
-         ret.append(String.format("Sub-level errors: %s%n", subLevelErrors));
+         for (Exception e : subLevelErrors) {
+            ret.append(String.format("Sub-level errors: %s%n", e.toString()));
+         }
       }
       if (tokenModel != null) {
          ret.append(String.format("Token model: %s%n", tokenModel));
