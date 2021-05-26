@@ -2,7 +2,6 @@ package com.dotdashline.tools.cliparser.features;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
 
 import org.junit.Assert;
 import org.junit.Test;

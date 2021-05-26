@@ -67,7 +67,8 @@ public class TokenModel {
    @Override
    public String toString() {
       return new StringBuilder().append(String.format("metaModel: %s", metaModel.toString()))
-            .append(String.format("tokens: %s%n", tokens)).append(String.format("commandToken: %s%n", commandToken))
+            .append(String.format("tokens: %s%n", tokens))
+            .append(String.format("commandToken: %s%n", commandToken))
             .append(String.format("optionTokens: %s%n", optionTokens))
             .append(String.format("paramTokens: %s%n", paramTokens)).toString();
    }

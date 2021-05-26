@@ -41,13 +41,13 @@ public class OptionParsingTest {
                 .parse(new String[] { CMD_TEST_EX, "--String", "This is a sentence." })).stringOption);
         Assert.assertEquals(Boolean.TRUE, ((TestExclusiveOptionsCommand) parser
                 .parse(new String[] { CMD_TEST_EX, "--Boolean", "True" })).booleanOption);
-        Assert.assertEquals(new Integer(7777), ((TestExclusiveOptionsCommand) parser
+        Assert.assertEquals(Integer.valueOf(7777), ((TestExclusiveOptionsCommand) parser
                 .parse(new String[] { CMD_TEST_EX, "--Integer", "7777" })).integerOption);
-        Assert.assertEquals(new Long(8888),
+        Assert.assertEquals(Long.valueOf(8888),
                 ((TestExclusiveOptionsCommand) parser.parse(new String[] { CMD_TEST_EX, "--Long", "8888" })).longOption);
-        Assert.assertEquals(new Float(9999.9f), ((TestExclusiveOptionsCommand) parser
+        Assert.assertEquals(Float.valueOf(9999.9f), ((TestExclusiveOptionsCommand) parser
                 .parse(new String[] { CMD_TEST_EX, "--Float", "9999.9" })).floatOption);
-        Assert.assertEquals(new Double(1234.5d), ((TestExclusiveOptionsCommand) parser
+        Assert.assertEquals(Double.valueOf(1234.5d), ((TestExclusiveOptionsCommand) parser
                 .parse(new String[] { CMD_TEST_EX, "--Double", "1234.5" })).doubleOption);
         Assert.assertEquals(new BigInteger("12345678901234567890"), ((TestExclusiveOptionsCommand) parser
                 .parse(new String[] { CMD_TEST_EX, "--BigInteger", "12345678901234567890" })).bigIntegerOption);
@@ -83,16 +83,16 @@ public class OptionParsingTest {
         Assert.assertEquals(Boolean.TRUE,
                 ((TestInclusiveOptionsCommand) parser.parse(new String[] { CMD_TEST_IN, "--Boolean=true" })).booleanOption);
 
-        Assert.assertEquals(new Integer(7777),
+        Assert.assertEquals(Integer.valueOf(7777),
                 ((TestInclusiveOptionsCommand) parser.parse(new String[] { CMD_TEST_IN, "--Integer=7777" })).integerOption);
 
-        Assert.assertEquals(new Long(8888),
+        Assert.assertEquals(Long.valueOf(8888),
                 ((TestInclusiveOptionsCommand) parser.parse(new String[] { CMD_TEST_IN, "--Long=8888" })).longOption);
 
-        Assert.assertEquals(new Float(9999.9f),
+        Assert.assertEquals(Float.valueOf(9999.9f),
                 ((TestInclusiveOptionsCommand) parser.parse(new String[] { CMD_TEST_IN, "--Float=9999.9" })).floatOption);
 
-        Assert.assertEquals(new Double(1234.5d),
+        Assert.assertEquals(Double.valueOf(1234.5d),
                 ((TestInclusiveOptionsCommand) parser.parse(new String[] { CMD_TEST_IN, "--Double=1234.5" })).doubleOption);
 
         Assert.assertEquals(new BigInteger("12345678901234567890"), ((TestInclusiveOptionsCommand) parser
@@ -124,13 +124,13 @@ public class OptionParsingTest {
 
         Assert.assertEquals(Boolean.TRUE, cmd.booleanOption);
 
-        Assert.assertEquals(new Integer(7777), cmd.integerOption);
+        Assert.assertEquals(Integer.valueOf(7777), cmd.integerOption);
 
-        Assert.assertEquals(new Long(8888), cmd.longOption);
+        Assert.assertEquals(Long.valueOf(8888), cmd.longOption);
 
-        Assert.assertEquals(new Float(9999.9f), cmd.floatOption);
+        Assert.assertEquals(Float.valueOf(9999.9f), cmd.floatOption);
 
-        Assert.assertEquals(new Double(1234.5d), cmd.doubleOption);
+        Assert.assertEquals(Double.valueOf(1234.5d), cmd.doubleOption);
 
         Assert.assertEquals(new BigInteger("12345678901234567890"), cmd.bigIntegerOption);
 
@@ -161,13 +161,13 @@ public class OptionParsingTest {
 
         Assert.assertEquals(Boolean.TRUE, cmd.booleanOption);
 
-        Assert.assertEquals(new Integer(7777), cmd.integerOption);
+        Assert.assertEquals(Integer.valueOf(7777), cmd.integerOption);
 
-        Assert.assertEquals(new Long(8888), cmd.longOption);
+        Assert.assertEquals(Long.valueOf(8888), cmd.longOption);
 
-        Assert.assertEquals(new Float(9999.9f), cmd.floatOption);
+        Assert.assertEquals(Float.valueOf(9999.9f), cmd.floatOption);
 
-        Assert.assertEquals(new Double(1234.5d), cmd.doubleOption);
+        Assert.assertEquals(Double.valueOf(1234.5d), cmd.doubleOption);
 
         Assert.assertEquals(new BigInteger("12345678901234567890"), cmd.bigIntegerOption);
 
